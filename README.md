@@ -3,6 +3,7 @@
 ## Enviornment
 ### Create Enviornment
 copy below and add your own config to your .env file.
+If you do not have a .env file, please create one.
 ```
 DB_HOST= 'your host and port'
 DB_USER= 'usernme'
