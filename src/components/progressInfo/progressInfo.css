@@ -1,0 +1,103 @@
+.progressInfo{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.infoItemTitle{
+    flex: 1 1 auto;
+    margin: 0px 20px;
+    padding: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.infoItemStatus{
+    flex: 2;
+    margin: 0px 20px;
+    padding: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.infoItemUsage{
+    flex: 2;
+    margin: 0px 20px;
+    padding: 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.infoName{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.infoId{
+    font-size: 20px;
+    font-weight: 200;
+}
+
+.infoPhase{
+    font-size: 40px;
+    font-weight: 600;
+    color: #0d6efd;
+    text-align: center;
+}
+
+.infoPercent{
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+    color: #0d6efd;
+}
+.infoHour{
+    display: block;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.infoActualHour{
+    padding: 20px;
+    color: #2E8B57;
+
+}
+
+.infoRemainHour{
+    padding: 20px;
+    color: #CD5C5C;
+
+}
+
+.infoActualText {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+    color: #2E8B57;
+}
+
+.infoRemainText {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+    color: #CD5C5C;
+}

@@ -10,7 +10,7 @@ phases = Blueprint('phases', __name__)
 
 @phases.route('/<string:engagement_id>', methods=['GET'])
 def list(engagement_id):
-    print('test')
+
     objects = Phase.query.filter_by(engagement_id=engagement_id)
     
     phaseList = []
@@ -25,7 +25,40 @@ def list(engagement_id):
                 'end_date': o.end_date if o.end_date else None
         })
 
-    return jsonify(phaseList)
+
+    totalSteps = len(phaseList)
+
+    memberList = []
+    memberSet = set()
+
+    for i in range(totalSteps):
+
+        phase = Phase.query.filter_by(engagement_id=engagement_id).filter_by(step=i + 1).first()
+        groupMembers = GroupMember.query.filter_by(group_id=phase.group_id).all()
+
+        for gp in groupMembers:
+            member = Member.query.filter_by(member_id=gp.member_id).first()
+            name = f'{member.first_name} {member.last_name}'
+            role = member.role
+            if name not in memberSet:
+                memberList.append({
+                    'name': name,
+                    'role': role
+                })
+                memberSet.add(f'{member.first_name} {member.last_name}')
+
+    phaseList.sort(key=lambda x:x['step'])
+    
+    response = jsonify({
+        'phases': phaseList,
+        'members': memberList
+    })
+
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
+
+
+
 
 @phases.route('/<string:engagement_id>/<int:step>', methods=['GET'])
 def phase(engagement_id, step):
@@ -46,7 +79,7 @@ def phase(engagement_id, step):
         })
 
 
-    return jsonify({
+    response = jsonify({
         'phase': {
                 'name': phase.name,
                 'step': phase.step,
@@ -57,4 +90,6 @@ def phase(engagement_id, step):
 
         'members': groupMembersList
     })
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
     

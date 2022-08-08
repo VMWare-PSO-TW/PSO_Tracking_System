@@ -19,7 +19,7 @@
     text-align: left;
   }
   
-  .widgetLgUser{
+  .widgetLgEngagement{
     display: flex;
     align-items: center;
     font-weight: 600;
@@ -33,7 +33,7 @@
     margin-right: 10px;
   }
   
-  .widgetLgDate,.widgetLgAmount{
+  .widgetLgActual,.widgetLgExpect, .widgetLgId{
     font-weight: 300;
   }
   

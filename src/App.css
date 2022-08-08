@@ -1,6 +1,8 @@
-.container{
+.container-dashboard{
     display: flex;
     margin-top: 10px;
+    width: 100%;
+    
 }
 
 

@@ -20,12 +20,17 @@ from flask.blueprints import Blueprint
 
 from settings import db_user, db_pass, db_host, db_name
 
-
+from flask_cors import CORS
 
 def create_app(config_name='development'):
     print('current envrionment: ', config_name)
 
     app = Flask(__name__)
+    app.url_map.strict_slashes = False
+
+    CORS(app)
+
+
 
     app.config['SECRET_KEY'] = '123456'
 
@@ -33,11 +38,13 @@ def create_app(config_name='development'):
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+    
     print('db name ', db_name)
 
     db.init_app(app)
     Migrate(app, db, compare_type=True)  #註冊migrate到flask
     print('======app=====')
+
     prefix_url = Blueprint('prefix_url', __name__)
 
     prefix_url.register_blueprint(engagements, url_prefix='/engagement')

@@ -3,6 +3,10 @@ import Topbar from "./components/topbar/Topbar";
 import "./App.css";
 import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import Phase from "./pages/phase/Phase";
+
+
 import UserList from "./pages/userList/UserList";
 import User from "./pages/user/User";
 import NewUser from "./pages/newUser/NewUser";
@@ -15,11 +19,14 @@ function App() {
   return (
     <Router>
       <Topbar />
-      <div className="container">
+      <div className="container-dashboard">
         <Sidebar />
         <Switch>
           <Route exact path="/">
             <Home />
+          </Route>
+          <Route path='/engagement/:engagementId'>
+            <Phase />
           </Route>
           <Route path="/users">
             <UserList />
