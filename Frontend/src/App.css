@@ -1,0 +1,12 @@
+.container-dashboard{
+    display: flex;
+    margin-top: 10px;
+    width: 100%;
+    
+}
+
+
+.others{
+    flex: 4;
+    background-color: darkcyan;
+}

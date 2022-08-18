@@ -1,0 +1,24 @@
+.engagementContainer{
+    display: flex;
+    margin: 100px;
+    width: 90%;
+
+    
+}
+
+
+
+.engagementMember{
+    flex: 2;
+    padding: 20px;
+    -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  }
+
+.engagementMemberIconContainer{
+    display: flex;
+}
+.engagementMemberIconText{
+    margin-left: 0.5em;
+    font-size: 1em;
+}
