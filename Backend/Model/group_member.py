@@ -5,6 +5,7 @@ from sqlalchemy.orm import relationship
 
 class GroupMember(db.Model):
     __tablename__ = 'GroupMember'
+    engagement_id = db.Column('engagement_id', db.String(30), primary_key=True, nullable=True)
     group_id = db.Column('group_id', db.String(30), primary_key=True, nullable=False)
     member_id = db.Column('member_id',  db.BigInteger(), primary_key=True, nullable=False)
 

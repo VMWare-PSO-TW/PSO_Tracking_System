@@ -14,8 +14,7 @@ class Phase(db.Model):
     step = db.Column('step', db.BigInteger(), nullable=False)
     expect_hours = db.Column('expect_hours', db.BigInteger(), nullable=False)
     actual_hours = db.Column('actual_hours', db.BigInteger(), nullable=False)
-    start_date = db.Column('start_date', db.DateTime, nullable=True)
-    end_date = db.Column('end_date', db.DateTime, nullable=True)
+    
 
     # engagement = relationship('Engagement', back_populates='Phase')
     # group = relationship('Group', back_populates='Phase', uselist=False)
