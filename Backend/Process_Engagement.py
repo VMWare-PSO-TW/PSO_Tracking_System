@@ -1,4 +1,5 @@
 import csv
+import os
 import datetime #temp import
 from sys import setrecursionlimit
 from xmlrpc.client import DateTime
@@ -6,6 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from settings import db_host, db_name, db_pass, db_user
 from Model.engagement import Engagement
+from Model.member import Member
 from Get_Info import get_csv_file
 
 def Read_Engagement():
@@ -20,6 +22,18 @@ def Read_Engagement():
     s.execute('TRUNCATE TABLE "Engagement"')
     s.commit()
 
+    path_of_the_directory = r'C:\Users\Selina\Desktop\tracking_tool_import_data\.csv\Engagement_v2'
+    for filename in os.listdir(path_of_the_directory): #process multiple csv files in the same folder
+        file = os.path.join(path_of_the_directory, filename)
+        if os.path.isfile(file):
+            with open(file, 'r') as csv_file:
+                reader = csv.reader(csv_file, delimiter=',')
+
+                exist_eng_id = set()
+
+                for row in reader:
+                    if(row[0] == "Time - Planned Vs Actual for Active Engmt"):
+                        continue
 
     #Read from the member CSV file and write the data into database
     with open(r'C:\Users\Selina\Desktop\tracking_tool_import_data\.csv\Engagements2.csv', 'r') as csv_file:

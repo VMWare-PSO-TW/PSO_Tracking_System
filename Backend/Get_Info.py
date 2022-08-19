@@ -25,18 +25,21 @@ def get_engagement_id(engagement_name):
 
 def get_group_id(task_line):
 
-    with open(r'C:\Users\Selina\Desktop\tracking_tool_import_data\.csv\TaskDistribution.csv', 'r') as csv_file:
-        reader = csv.reader(csv_file, delimiter=',')
-        next(reader)
+    eng_id = task_line[4].replace(" ", "")
 
-        for row in reader:
-            eng_name = row[0]
-            break
+    phase = "0"
 
-        csv_file.close()
+    if "MS" in task_line[13]:
+        phase_name = task_line[13].replace(" ", "")
+        ind = phase_name.find("MS")
 
-    eng_id = get_engagement_id(eng_name)
-    return "G-" + get_phase_id(eng_id, task_line)
+        if(phase_name[ind + 2] == '#'):
+            phase = phase_name[ind + 3]
+        else:
+            phase = phase_name[ind + 2]
+        
+    
+    return "G-" + eng_id + "-0" + phase
 
 
 #Get phase id by passing a line of task from an engagement file
@@ -64,4 +67,27 @@ def get_member_id(member_name):
 
         csv_file.close()
 
-        return exist_id[member_name]
+        if member_name in exist_id:
+            return exist_id[member_name]
+        
+        return None
+
+def check_member_id(member_id):
+
+    exist_id = set()
+
+    #Read from the member CSV file and write the data into database
+    with open(r'C:\Users\Selina\Desktop\tracking_tool_import_data\.csv\My-Team-Sampling.csv', 'r') as csv_file:
+        reader = csv.reader(csv_file, delimiter=',')
+        next(reader)
+        next(reader)
+
+        for row in reader:
+            exist_id.add(row[1])
+
+        csv_file.close()
+
+        if member_id in exist_id:
+            return True
+
+        return False

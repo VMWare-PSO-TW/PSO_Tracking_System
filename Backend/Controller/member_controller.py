@@ -38,8 +38,8 @@ def member_hours():
         total_actual_hours = 0
 
         for task in engagements_by_member:
-            total_expect_hours = task.expect_hours
-            total_actual_hours = task.actual_hours
+            total_expect_hours += task.expect_hours
+            total_actual_hours += task.actual_hours
 
         member_list.append({
             'id': member.member_id,
