@@ -1,0 +1,39 @@
+services:
+  frontened:
+    restart: always
+    container_name: frontend
+    image: frontend:1.0
+    build: ./Frontend
+    ports:
+      - "3000:3000"
+  backend:
+    restart: always
+    container_name: backend
+    image: backend:1.0
+    build: ./Backend
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=db:5432
+      - DB_USER=byron
+      - DB_PASS=123456
+      - DB_NAME=track_db
+    depends_on:
+      - db
+  
+  db:
+    container_name: db
+    image: postgres:12
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_USER=byron
+      - POSTGRES_DB=track_db
+    
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
+
