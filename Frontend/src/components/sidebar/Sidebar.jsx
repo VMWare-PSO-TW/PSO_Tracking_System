@@ -44,16 +44,16 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Quick Menu</h3>
           <ul className="sidebarList">
-            <Link to="/users" className="link">
+            <Link to="/membersList" className="link">
               <li className="sidebarListItem">
                 <PermIdentity className="sidebarIcon" />
-                Users
+                Members
               </li>
             </Link>
-            <Link to="/products" className="link">
+            <Link to="/" className="link">
               <li className="sidebarListItem">
                 <Storefront className="sidebarIcon" />
-                Products
+                Engagements
               </li>
             </Link>
             <li className="sidebarListItem">

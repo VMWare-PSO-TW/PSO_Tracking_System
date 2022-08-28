@@ -41,7 +41,7 @@ const EngagementList = ({engagementItems}) => {
         const placeHolder = document.getElementsByClassName('form-control filter-input')[0];
         placeHolder.placeholder = 'Name / ID'
 
-      }, []);
+    }, []);
     
 
     return (

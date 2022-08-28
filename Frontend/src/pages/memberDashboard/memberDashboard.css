@@ -1,0 +1,7 @@
+.memberDashboard{
+    flex: 4
+}
+.memberDashboardWidgets{
+    display: flex;
+    margin: 20px;
+}

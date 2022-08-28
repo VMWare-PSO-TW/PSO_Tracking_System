@@ -5,6 +5,9 @@ import Home from "./pages/home/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Phase from "./pages/phase/Phase";
+import MemberDashboard from "./pages/memberDashboard/MemberDashboard";
+import Member from "./pages/member/Member";
+
 
 
 import UserList from "./pages/userList/UserList";
@@ -28,6 +31,17 @@ function App() {
           <Route path='/engagement/:engagementId'>
             <Phase />
           </Route>
+
+          <Route path='/membersList'>
+            <MemberDashboard />
+          </Route>
+
+          <Route path='/member/:memberId'>
+            <Member />
+          </Route>
+
+
+
           <Route path="/users">
             <UserList />
           </Route>
