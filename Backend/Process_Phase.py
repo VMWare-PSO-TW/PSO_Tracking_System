@@ -10,24 +10,6 @@ from Model.phase import Phase
 from Get_Info import get_engagement_id, get_phase_id, get_csv_file
 
 
-#Get engagement id by passing engagement name
-def get_start_date(engagement_name):
-
-    with open(r'C:\Users\Selina\Desktop\tracking_tool_import_data\.csv\Engagements2.csv', 'r') as csv_file:
-        reader = csv.reader(csv_file, delimiter=',')
-        next(reader)
-        next(reader)
-
-        for row in reader:
-            eng_name = row[0].strip()
-            if(eng_name == engagement_name.strip()):
-                return row[3]
-    
-        csv_file.close()
-    return ""
-
-
-
 def Read_Phase():
 
     #connect to database
@@ -68,7 +50,7 @@ def Read_Phase():
                 phase_counter = 1
 
                 #if the engagement contains phases
-                if 'MS#' in row[item_index['Task']].replace(" ", ""):
+                if 'MS' in row[item_index['Task']].replace(" ", ""):
                     
                     while phase_counter <= 4:
 
@@ -135,12 +117,13 @@ def get_phase_details(engagement_number, phase_number, item_index):
                 
                 get_phase_index = row[item_index['Task']].replace(' ', '').lower().find("phase")
                 get_phase = row[item_index['Task']].replace(' ', '').lower()[get_phase_index + 5]
+                pound_sign_index = row[item_index['Task']].replace(' ', '').find("#")
 
                 #when the engagement contains phases
-                if(get_phase != "-1" and get_phase == str(phase_number)):
+                if(get_phase != "-1" and (get_phase == str(phase_number) or row[item_index['Task']].replace(' ', '')[pound_sign_index + 1] == str(phase_number))):
 
                     if(phase_details['name'] == ''):
-                        phase_details['name'] = "MS" + get_phase
+                        phase_details['name'] = "MS" + str(phase_number)  
                     
                     #process expected hours
                     if(row[item_index['PlannedHours']] == ''):
@@ -180,7 +163,7 @@ def get_short_term_engagement_details(engagement_number, item_index):
 
         for row in reader:
 
-            if(row[0] == "Time - Planned Vs Actual for Active Engmt" or row[0] == None or row[0] == "Workgroup" or row[0] == 'Generic'):
+            if(row[0] == "Time - Planned Vs Actual for Active Engmt" or row[0] == None or row[0] == "Workgroup"):
                 continue
             
             if(row[item_index['Engagement Number']] == engagement_number):
