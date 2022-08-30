@@ -10,7 +10,7 @@ class Phase(db.Model):
     engagement_id = db.Column('engagement_id', db.String(30), nullable=False)
     group_id = db.Column('group_id', db.String(30), nullable=False)
 
-    name = db.Column('name', db.String(200), nullable=False)
+    name = db.Column('name', db.String(500), nullable=False)
     step = db.Column('step', db.BigInteger(), nullable=False)
     expect_hours = db.Column('expect_hours', db.BigInteger(), nullable=False)
     actual_hours = db.Column('actual_hours', db.BigInteger(), nullable=False)

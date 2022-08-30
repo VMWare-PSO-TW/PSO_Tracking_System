@@ -67,10 +67,13 @@ def Read_Member():
                 #process names
                 name = row[item_index['Resource']].split(" ")
 
+                get_first_name = ''
+
                 if(len(name) > 2):
 
                     for i in range(len(name) - 1):
                         get_first_name += name[i]
+                        get_first_name += ' '
                     
                     get_last_name = name[len(name) - 1]
 
