@@ -9,6 +9,8 @@ forecast = Blueprint('forecast', __name__)
 def forecast_hours():
 
     if request.method == 'POST':
+        data = request.form
+
 
     if request.method == 'GET':
 

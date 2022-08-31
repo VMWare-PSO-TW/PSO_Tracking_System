@@ -7,6 +7,7 @@ class Engagement(db.Model):
 
     name = db.Column('name', db.String(200), nullable=False)
     budgeted_hours = db.Column('budgeted_hours', db.BigInteger(), nullable=False)
+    budgeted_hours = db.Column('budgeted_hours', db.BigInteger(), nullable=False)
     expect_hours = db.Column('expect_hours', db.BigInteger(), nullable=False)
     actual_hours = db.Column('actual_hours', db.BigInteger(), nullable=False)
     start_date = db.Column('start_date', db.DateTime, nullable=True)
