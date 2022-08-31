@@ -11,7 +11,7 @@ const MemberInfo = ({member}) => {
         <div className="featured">
           <div className="featuredItem">
             <span className="featuredTitle">Personal Info</span>
-            <div className="featuredContainer">
+            <div className="featuredMemberInfoContainer">
               <span className="featuredName">{member.name}</span>
               <span className="featuredRole">{member.role}</span>
 
@@ -20,7 +20,7 @@ const MemberInfo = ({member}) => {
           </div>
           <div className="featuredItem">
             <span className="featuredTitle">Total Hours</span>
-            <div className="featuredMemberContainer">
+            <div className="featuredMemberHoursContainer">
             <span className="featureActualHour">{member.total_actual}
                 <span className="featureText">
                     Used
@@ -46,17 +46,17 @@ const MemberInfo = ({member}) => {
           </div>
           <div className="featuredItem">
             <span className="featuredTitle">Total Rates</span>
-            <div className="featuredRateContainer">
+            <div className="featuredMemberRateContainer">
 
             <span className="featureUTRate">{`${allUTRate}%`}
                 <span className="featureRateText">
-                    UT Rate
+                    Utility
                 </span>
             </span>
                 /
             <span className="featureCompleteRate">{`${allCompleteRate}%`}
                 <span className="featureRateText">
-                    Complete Rate
+                    Complete
                 </span>
             </span>
                 

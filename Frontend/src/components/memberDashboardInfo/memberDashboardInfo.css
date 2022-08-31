@@ -9,15 +9,19 @@
   
 .featuredItem {
     flex: 1;
-    margin: 0px 20px;
-    padding: 30px;
+    margin: 0em 2em;
+    padding: 1em;
     border-radius: 10px;
     cursor: pointer;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     text-align: center;
 }
-
+.featuredContainer{
+    margin: 10px 0px;
+    display: flex;
+    text-align: center;
+}
 .featuredTitle{
     font-size: 1.5em;
     color: gray;
@@ -25,9 +29,15 @@
 
 .featuredContainer{
     margin: 10px 0px;
-    flex-direction: column;
     text-align: center;
 }
+.featuredDateContainer{
+    margin: 10px 0px;
+    display: flex;
+    flex-direction: column !important;
+    text-align: center;
+}
+
 .featuredRateContainer{
     margin: 10px 0px;
     display: flex;

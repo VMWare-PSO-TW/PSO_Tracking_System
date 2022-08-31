@@ -4,12 +4,18 @@ const memberDummyData = {
     role: "Associate Consultant II",
     total_actual: 85,
     total_expect: 119,
-    engagments:[
+    engagements:[
+        {
+            "id": "SUNB0013",
+            "name": "E.Sun Commercial Bank,Ltd_Tanzu Design and Deployment(GCR)",
+            "person_actual": 23,
+            "person_expect": 45
+        },
         {
 
             "id": "TCC 0001",
             "name": "TCC Information Systems Corp_VMware one day T&M Consultancy Services delivered by a VMware Senior Consultant (TAIWAN)",
-            "person_acutal": 30,
+            "person_actual": 30,
             "person_expect": 45
         },
         {

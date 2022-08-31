@@ -8,7 +8,7 @@ import { renderFunction } from './utils';
 
 const fields = [
     { name: "name", displayName: "Name", inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.name, tdClassName:"memberName" , thClassName:"memberTh"},
-    { name:"utRate", displayName: "UT Rate",inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.utRate, tdClassName:"memberTdStatus", thClassName:"memberTh"},
+    { name:"utRate", displayName: "Utility Rate",inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.utRate, tdClassName:"memberTdStatus", thClassName:"memberTh"},
     { name:"completeRate", displayName: "Complete Rate",inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.completeRate, tdClassName:"memberTdStatus", thClassName:"memberTh"},
     { name: "total_actual", displayName: "Used hours", inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.total_actual , thClassName:"memberTh",tdClassName:"memberTd"},
     { name: "total_remain", displayName: "Remaining hours", inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.total_remain , thClassName:"memberTh",tdClassName:"memberTd"},

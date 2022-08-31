@@ -7,8 +7,8 @@
   
 .featuredItem {
     flex: 1;
-    margin: 0px 20px;
-    padding: 30px;
+    margin: 0em 2em;
+    padding: 1em;
     border-radius: 10px;
     cursor: pointer;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
@@ -20,55 +20,51 @@
     font-size: 1.5em;
     color: gray;
 }
-
-.featuredMemberContainer{
-    margin: 10px 0px;
+.featuredMemberInfoContainer{
+    margin: 1em 0em;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+.featuredMemberHoursContainer{
+    margin: 1em 0em;
     text-align: center;
 }
-.featuredRateContainer{
-    margin: 10px 0px;
-    display: flex;
+.featuredMemberRateContainer{
+    margin: 1em 0em;
+    display: block;
     text-align: center;
 }
   
 .featuredName{
     font-size: 2.5em;
     font-weight: 400;
-    color: #4169E1;
+    color: #2F4F4F;
     width: 100%;
     
 }
 .featuredRole{
     font-size: 1em;
     font-weight: 700;
-    color: #4169E1;
+    color: #2F4F4F;
     width: 100%;
 }
 
 
-.featureStartDate{
-    color: #7B68EE;
-    font-size: 2em;
-    width: 100%;
-    text-align: center;
-}
-.featureEndDate{
-    color: #4169E1;
-    font-size: 2em;
-    width: 100%;
-    text-align: center;
-}
+
 .featureUTRate{
     color: #20B2AA;
     font-size: 2em;
     width: 100%;
     text-align: center;
+    margin-left: 0.5em;
 }
 .featureCompleteRate{
     color: #5F9EA0;
     font-size: 2em;
     width: 100%;
     text-align: center;
+    margin-left: 0.25em;
 }
 .featureText {
     font-size: 0.5em;
@@ -80,6 +76,7 @@
     font-size: 0.35em;
     margin-top: 0.5em;
     margin-left: 0.5em;
+    margin-right: 0.5em;
 }
   
 

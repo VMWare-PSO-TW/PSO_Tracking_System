@@ -21,22 +21,23 @@ const MemberDashboardInfo = () => {
           </div>
           <div className="featuredItem">
             <span className="featuredTitle">Season Span</span>
-            <div className="featuredContainer">
-            <span className="featureStartDate">
-                <span className="featureText">
-                    Start Date
-                </span>
-                {startDate}
+            <div className="featuredDateContainer">
 
-            </span>
+              <span className="featureStartDate">
+                  <span className="featureText">
+                      Start Date
+                  </span>
+                  {startDate}
 
-            <span className="featureEndDate"> 
-                <span className="featureText">
-                    End Date
-                </span>
-                {endDate}
+              </span>
 
-            </span>
+              <span className="featureEndDate"> 
+                  <span className="featureText">
+                      End Date
+                  </span>
+                  {endDate}
+
+              </span>
 
             
 
@@ -49,13 +50,13 @@ const MemberDashboardInfo = () => {
 
             <span className="featureUTRate">{`${allUTRate}%`}
                 <span className="featureRateText">
-                    UT Rate
+                    Utility
                 </span>
             </span>
                 /
             <span className="featureCompleteRate">{`${allCompleteRate}%`}
                 <span className="featureRateText">
-                    Complete Rate
+                    Complete
                 </span>
             </span>
                 
