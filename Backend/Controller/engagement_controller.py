@@ -16,10 +16,14 @@ def list():
         engagementList.append({
                 'id': o.engagement_id,
                 'name': o.name,
-                'expect': o.expect_hours,
-                'actual': o.actual_hours,
-                'internal': o.internal_hours if o.internal_hours else None,
-                'subb': o.subb_hours if o.subb_hours else None
+                'budgeted_hours': o.budgeted_hours,
+                'expect_hours': o.expect_hours,
+                'actual_hours': o.actual_hours,
+                'start_date': o.start_date if o.start_date else None,
+                'finish_date': o.finish_date if o.finish_date else None,
+                'last_entry_date': o.last_entry_date if o.last_entry_date else None,
+                'hours_balance': o.hours_balance,
+                'inactive_days': o.inactive_days if o.inactive_days else None
         })
 
     return jsonify(engagementList)
@@ -32,9 +36,13 @@ def engagement(engagement_id):
     return jsonify({
         'id': e.engagement_id,
         'name': e.name,
-        'expect': e.expect_hours,
-        'actual': e.actual_hours,
-        'internal': e.internal_hours if e.internal_hours else None,
-        'subb': e.subb_hours if e.subb_hours else None
+        'budgeted_hours': e.budgeted_hours,
+        'expect_hours': e.expect_hours,
+        'actual_hours': e.actual_hours,
+        'start_date': e.start_date if e.start_date else None,
+        'finish_date': e.finish_date if e.finish_date else None,
+        'last_entry_date': e.last_entry_date if e.last_entry_date else None,
+        'hours_balance': e.hours_balance,
+        'inactive_days': e.inactive_days if e.inactive_days else None
     })
 
