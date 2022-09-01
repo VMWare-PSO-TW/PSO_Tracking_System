@@ -13,6 +13,7 @@ from Model.member import Member
 
 from Controller.engagement_controller import engagements
 from Controller.phase_controller import phases
+from Controller.member_controller import members
 
 from flask_migrate import Migrate   #載入migrate擴充套件
 
@@ -49,6 +50,7 @@ def create_app(config_name='development'):
 
     prefix_url.register_blueprint(engagements, url_prefix='/engagement')
     prefix_url.register_blueprint(phases, url_prefix='/phase')
+    prefix_url.register_blueprint(members, url_prefix='/member')
 
     app.register_blueprint(prefix_url, url_prefix='/server/api/v1')
     

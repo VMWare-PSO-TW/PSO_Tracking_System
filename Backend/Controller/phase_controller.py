@@ -8,57 +8,58 @@ from Model.base import db
 phases = Blueprint('phases', __name__)
 
 
-@phases.route('/<string:engagement_id>', methods=['GET'])
+@phases.route("/<string:engagement_id>", methods=['GET'])
 def list(engagement_id):
 
-    objects = Phase.query.filter_by(engagement_id=engagement_id)
-    
-    phaseList = []
+    groupMembers = GroupMember.query.filter_by(engagement_id=engagement_id).all()
 
-    for o in objects:
-        phaseList.append({
-                'name': o.name,
-                'step': o.step,
-                'expect': o.expect_hours,
-                'actual': o.actual_hours,
-                'start_date': o.start_date if o.start_date else None,
-                'end_date': o.end_date if o.end_date else None
+    Member_Info = []
+
+    exist_member_list = set()
+    #traverse all the tasks in an engagement
+    for group_member in groupMembers:
+
+        if group_member.member_id in exist_member_list:
+            continue
+
+        member = Member.query.filter_by(member_id=group_member.member_id).first()
+        #get all the phases of a particular member
+        member_phase_list = GroupMember.query.filter_by(member_id=group_member.member_id,
+            engagement_id=group_member.engagement_id).all()
+
+        total_actual_hours = 0
+        total_expect_hours = 0
+
+        for hours in member_phase_list:
+            total_actual_hours += hours.actual_hours
+            total_expect_hours += hours.expect_hours
+
+        phase_list = []
+
+        for phase in member_phase_list:
+            phase_list.append({
+                'step': int(phase.group_id[-1]),
+                'actual':phase.actual_hours,
+                'expect':phase.expect_hours
+            })
+
+        Member_Info.append({
+                'id': group_member.member_id,
+                'name': member.first_name + " " + member.last_name,
+                'role': member.role,
+                'total actual': total_actual_hours,
+                'total expect': total_expect_hours,
+                'phases': phase_list
         })
+        
+        exist_member_list.add(group_member.member_id)
 
-
-    totalSteps = len(phaseList)
-
-    memberList = []
-    memberSet = set()
-
-    for i in range(totalSteps):
-
-        phase = Phase.query.filter_by(engagement_id=engagement_id).filter_by(step=i + 1).first()
-        groupMembers = GroupMember.query.filter_by(group_id=phase.group_id).all()
-
-        for gp in groupMembers:
-            member = Member.query.filter_by(member_id=gp.member_id).first()
-            name = f'{member.first_name} {member.last_name}'
-            role = member.role
-            if name not in memberSet:
-                memberList.append({
-                    'name': name,
-                    'role': role
-                })
-                memberSet.add(f'{member.first_name} {member.last_name}')
-
-    phaseList.sort(key=lambda x:x['step'])
-    
-    response = jsonify({
-        'phases': phaseList,
-        'members': memberList
-    })
+    response = jsonify(
+        Member_Info
+    )
 
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
-
-
-
 
 @phases.route('/<string:engagement_id>/<int:step>', methods=['GET'])
 def phase(engagement_id, step):
@@ -84,9 +85,7 @@ def phase(engagement_id, step):
                 'name': phase.name,
                 'step': phase.step,
                 'expect': phase.expect_hours,
-                'actual': phase.actual_hours,
-                'start_date': phase.start_date if phase.start_date else None,
-                'end_date': phase.end_date if phase.end_date else None},
+                'actual': phase.actual_hours},
 
         'members': groupMembersList
     })
