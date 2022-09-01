@@ -6,22 +6,30 @@ import MemberForecast from "../memberForecast/MemberForecast";
 import React, { useState, useEffect, useCallback } from 'react';
 
 
-const MemberSwitch = () => {
+const MemberSwitch = ({ memberItem }) => {
+    
     const [active, setActive] = React.useState(1);
+    
     const SetView = (active) => {
         setActive(active);
     };
+    
     const ActiveView = () => {
         switch (active) {
           case 1:
             return (
-                <MemberEngagementsList />
+                <MemberEngagementsList/>
             );
           case 2:
             return <MemberForecast />;
           
         }
-      };
+    };
+
+
+
+    
+
     return (
         <div className='test'>
             <div className="featuredSwitch">

@@ -81,6 +81,7 @@ export const getCurrentPeriod = () => {
 
 
 export const getAllRates = (startDate, curDate, members) => {
+    // console.log('get all rates');
     const [startMonth, startDay, startYear] = startDate.split("-");
     let startDateTime = new Date(`${startYear}-${startMonth}-${startDay}`)
 
@@ -96,6 +97,8 @@ export const getAllRates = (startDate, curDate, members) => {
     let totalExpectHours = 0;
 
     for (let i = 0; i < members.length; i++){
+        // console.log(members[i].total_actual)
+        // console.log(members[i].total_expect)
         totalActualHours += members[i].total_actual;
         totalExpectHours += members[i].total_expect;
     }

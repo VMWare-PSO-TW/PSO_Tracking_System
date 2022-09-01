@@ -11,21 +11,21 @@ const fields = [
     { name: "name", displayName: "Name", inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.name, tdClassName:"engagementName" , thClassName:"engagementTh"},
     { name: "id", displayName: "ID", inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.id , thClassName:"engagementTh"},
     { name: "status", displayName: "Status", inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.status,tdClassName:"engagementTdStatus", thClassName:"engagementTh"},
-    { name: "actual", displayName: "Used hours", inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.actual , thClassName:"engagementTh"},
-    { name: "remain", displayName: "Remaining hours", inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.remain , thClassName:"engagementTh"},
-    { name: "expect", displayName: "Total hours", inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.total , thClassName:"engagementTh"}
+    { name: "actual_hours", displayName: "Used hours", inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.actual_hours , thClassName:"engagementTh"},
+    { name: "remain_hours", displayName: "Remaining hours", inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.remain_hours , thClassName:"engagementTh"},
+    { name: "expect_hours", displayName: "Total hours", inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.expect_hours , thClassName:"engagementTh"}
 ]
 
 const EngagementList = ({engagementItems}) => {
-    const engagementDummyList = engagementDummyData.map(project => {
-        const status = parseInt((((project.actual / project.expect )) * 100).toFixed(0), 10);
-        const remainHours = project.expect - project.actual;
-
+    const engagementDummyList = engagementItems.map(project => {
+        const status = parseInt((((project.actual_hours / project.expect_hours )) * 100).toFixed(0), 10);
+        const remain_hours = project.expect_hours - project.actual_hours;
+        // console.log(project);
         return (
             {   
                 ...project,
                 status: status,
-                remain: remainHours
+                remain_hours: remain_hours
                 
             }
         )

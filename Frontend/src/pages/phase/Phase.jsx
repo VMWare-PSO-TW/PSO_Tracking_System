@@ -12,7 +12,6 @@ import ProgressInfo from '../../components/progressInfo/ProgressInfo';
 
 const Phase = () =>{
     
-   
     const [phaseItems, setPhaseItems] = useState([]);
     const [memberItems, setMemberItems] = useState([]);
 
@@ -28,17 +27,17 @@ const Phase = () =>{
 
         const fetchingData = async (engagementId) => {
             const phases = await fetchAllPhases(engagementId);
-                
-                setPhaseItems([
-                    ...phases.phases,
-                ]);
+            console.log(phases);
+            setPhaseItems([
+                ...phases.phases,
+            ]);
 
-                setMemberItems([
-                    ...phases.members,
-                ]);
+            setMemberItems([
+                ...phases.members,
+            ]);
 
-                // console.log(memberItems);
-            }
+            // console.log(phaseItems);
+        }
             fetchingData(engagementId);
     }, [location.pathname]);
 

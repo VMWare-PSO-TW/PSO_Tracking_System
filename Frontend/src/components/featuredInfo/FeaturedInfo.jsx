@@ -5,13 +5,15 @@ import engagementDummyData from "../../data/engagementDummyData";
 
 export default function FeaturedInfo({engagementItems}) {
   const getStatisticInfo = (engagement) => {
+    // console.log(engagement);
     const number = engagement.length;
+    // console.log(number);
     let totalExpectHours = 0;
     let totalActualHours = 0;
 
     engagement.forEach(project => {
-      totalExpectHours += project.expect;
-      totalActualHours += project.actual;
+      totalExpectHours += project.expect_hours;
+      totalActualHours += project.actual_hours;
     })
 
     let totalRemainHours = totalExpectHours - totalActualHours;
@@ -27,7 +29,7 @@ export default function FeaturedInfo({engagementItems}) {
     return object;
   }
 
-  const totalStat = getStatisticInfo(engagementDummyData);
+  const totalStat = getStatisticInfo(engagementItems);
 
 
 

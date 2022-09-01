@@ -14,8 +14,8 @@ const fields = [
     { name: "total_remain", displayName: "Remaining hours", inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.total_remain , thClassName:"memberTh",tdClassName:"memberTd"},
     { name: "total_expect", displayName: "Total hours", inputFilterable:true, exactFilterable: true, sortable:true, render: renderFunction.total_expect , thClassName:"memberTh",tdClassName:"memberTd"}
 ]
-const MemberDashboardList = () => {
-    const memberDummyList = memberDashboardDummyData.map(member => {
+const MemberDashboardList = ({ membersItem }) => {
+    const memberList = membersItem.map(member => {
         const {startDate, endDate, curDate, curPeriod} = getCurrentPeriod();
 
         const {allUTRate, allCompleteRate} = getAllRates(startDate, curDate, [member]);
@@ -41,13 +41,13 @@ const MemberDashboardList = () => {
         const placeHolder = document.getElementsByClassName('form-control filter-input')[0];
         placeHolder.placeholder = 'Name'
 
-    }, []);
+    }, [membersItem]);
     return (
         <div className="memberList">
             <FilterableTable
                 namespace="Members"
                 initialSort="name"
-                data={memberDummyList }
+                data={memberList}
                 fields={fields}
                 noRecordsMessage="There are no member to display"
                 noFilteredRecordsMessage="No member match your filters!"

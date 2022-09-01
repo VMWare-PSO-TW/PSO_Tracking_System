@@ -3,12 +3,31 @@ import BusinessCenterTwoToneIcon from '@mui/icons-material/BusinessCenterTwoTone
 import NextPlanTwoToneIcon from '@mui/icons-material/NextPlanTwoTone';
 import AccessTimeTwoToneIcon from '@mui/icons-material/AccessTimeTwoTone';
 
-
+import React, { useState, useEffect } from 'react';
 import engagementDummyData from "../../data/engagementDummyData";
 
+import { fetchEngagement } from "../../data/fetchData";
 
 const ProgressInfo = ({ phaseItems, engagementId}) => {
-    const engagementItem = engagementDummyData.find((e) => e.id === engagementId);
+
+    const [engagementItem, setEngagementItem] = useState({})
+    useEffect(() => {
+        console.log('execute function in useEffect Phase!');
+
+        const fetchingData = async (engagementId) => {
+            const engagement = await fetchEngagement(engagementId);
+
+            setEngagementItem(
+                engagement
+            );
+
+ 
+        }
+        fetchingData(engagementId);
+        // console.log(engagementItem)
+    }, []);
+
+    // console.log(phaseItems);
 
     const getSum = (arr, key) => {
         return arr.reduce((accumulator, current) => accumulator + Number(current[key]), 0)

@@ -1,13 +1,13 @@
 import memberDashboardDummyData from "../../data/memberDashboardDummyData";
 import './memberDashboardInfo.css';
 import { getAllRates, getCurrentPeriod } from "../../utils/seasonCount";
-const MemberDashboardInfo = () => {
+const MemberDashboardInfo = ({ membersItem }) => {
 
  
 
     const {startDate, endDate, curDate, curPeriod} = getCurrentPeriod();
 
-    const {allUTRate, allCompleteRate} = getAllRates(startDate, curDate, memberDashboardDummyData);
+    const {allUTRate, allCompleteRate} = getAllRates(startDate, curDate, membersItem);
     
     return (
         <div className="featured">

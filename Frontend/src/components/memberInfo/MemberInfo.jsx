@@ -1,19 +1,18 @@
 import './memberInfo.css';
 import { getCurrentPeriod, getAllRates } from '../../utils/seasonCount';
 
-const MemberInfo = ({member}) => {
-
-    const total_remain = member.total_expect - member.total_actual;
+const MemberInfo = ({ memberItem }) => {
+    const total_remain = memberItem.total_expect - memberItem.total_actual;
     const {startDate, endDate, curDate, curPeriod} = getCurrentPeriod();
-    const {allUTRate, allCompleteRate} = getAllRates(startDate, curDate, [member]);
+    const {allUTRate, allCompleteRate} = getAllRates(startDate, curDate, [memberItem]);
 
     return (
         <div className="featured">
           <div className="featuredItem">
             <span className="featuredTitle">Personal Info</span>
             <div className="featuredMemberInfoContainer">
-              <span className="featuredName">{member.name}</span>
-              <span className="featuredRole">{member.role}</span>
+              <span className="featuredName">{memberItem.member_name}</span>
+              <span className="featuredRole">{memberItem.role}</span>
 
             </div>
 
@@ -21,7 +20,7 @@ const MemberInfo = ({member}) => {
           <div className="featuredItem">
             <span className="featuredTitle">Total Hours</span>
             <div className="featuredMemberHoursContainer">
-            <span className="featureActualHour">{member.total_actual}
+            <span className="featureActualHour">{memberItem.total_actual}
                 <span className="featureText">
                     Used
                 </span>
@@ -33,7 +32,7 @@ const MemberInfo = ({member}) => {
                 </span>
             </span>
                 /
-            <span className="featureExpectHour">{member.total_expect}
+            <span className="featureExpectHour">{memberItem.total_expect}
                 <span className="featureText">
                     Expect
                 </span>

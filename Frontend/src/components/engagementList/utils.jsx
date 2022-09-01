@@ -6,7 +6,6 @@ export const renderFunction = {
 
     name: (props) => {
         return (
-            
                 <Link to={{ 
                     pathname: `/engagement/${props.record.id}`,
                 }} 
@@ -51,7 +50,7 @@ export const renderFunction = {
         
     },
 
-    actual: (props) => {
+    actual_hours: (props) => {
         return (
             <div className="engagementTr">
                 {props.value}
@@ -59,7 +58,7 @@ export const renderFunction = {
         )
     },
 
-    remain: (props) => {
+    remain_hours: (props) => {
         
         return (
             <div className="engagementTr">
@@ -68,7 +67,7 @@ export const renderFunction = {
         )
     },
 
-    total: (props) => {
+    expect_hours: (props) => {
         return (
             <div className="engagementTr">
                 {props.value}

@@ -46,7 +46,7 @@ export const renderFunction = {
         
     },
     
-    person_actual: (props) => {
+    total_actual: (props) => {
         return (
             <div className="engagementTr">
                 {props.value}
@@ -54,7 +54,7 @@ export const renderFunction = {
         )
     },
 
-    person_remain: (props) => {
+    total_remain: (props) => {
         
         return (
             <div className="engagementTr">
@@ -63,7 +63,7 @@ export const renderFunction = {
         )
     },
 
-    person_expect: (props) => {
+    total_expect: (props) => {
         return (
             <div className="engagementTr">
                 {props.value}
