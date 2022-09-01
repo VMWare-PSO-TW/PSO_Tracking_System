@@ -87,10 +87,10 @@ def member_engagements(member_id):
         engagement = Engagement.query.filter_by(engagement_id=eng).first()
 
         engagement_list.append({
-            'engagement_id': eng,
-            'engagement_name': engagement.name,
-            'individual_expect_hours': eng_expect_hours,
-            'individual_actual_hours': eng_actual_hours
+            'id': eng,
+            'name': engagement.name,
+            'total_expect': eng_expect_hours,
+            'total_actual': eng_actual_hours
         })    
 
 
@@ -98,8 +98,8 @@ def member_engagements(member_id):
         'member_id': member.member_id,
         'member_name': member.first_name + " " + member.last_name,
         'role': member.role,
-        'total_expect_hours': total_expect_hours,
-        'total_actual_hours': total_actual_hours,
+        'total_expect': total_expect_hours,
+        'total_actual': total_actual_hours,
         'engagements': engagement_list
     })
 

@@ -1,0 +1,1308 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.4
+-- Dumped by pg_dump version 14.4
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: Engagement; Type: TABLE; Schema: public; Owner: sammy
+--
+
+CREATE TABLE public."Engagement" (
+    engagement_id character varying(30) NOT NULL,
+    name character varying(200) NOT NULL,
+    expect_hours bigint NOT NULL,
+    actual_hours bigint NOT NULL,
+    start_date timestamp without time zone,
+    budgeted_hours bigint NOT NULL,
+    last_entry_date timestamp without time zone,
+    hours_balance bigint NOT NULL,
+    inactive_days bigint,
+    finish_date timestamp without time zone
+);
+
+
+ALTER TABLE public."Engagement" OWNER TO sammy;
+
+--
+-- Name: Group; Type: TABLE; Schema: public; Owner: sammy
+--
+
+CREATE TABLE public."Group" (
+    group_id character varying(30) NOT NULL,
+    phase_id character varying(30) NOT NULL,
+    internal_hours bigint,
+    subb_hours bigint
+);
+
+
+ALTER TABLE public."Group" OWNER TO sammy;
+
+--
+-- Name: GroupMember; Type: TABLE; Schema: public; Owner: sammy
+--
+
+CREATE TABLE public."GroupMember" (
+    group_id character varying(30) NOT NULL,
+    member_id bigint NOT NULL,
+    expect_hours bigint NOT NULL,
+    actual_hours bigint NOT NULL,
+    engagement_id character varying(30),
+    phase_name text NOT NULL
+);
+
+
+ALTER TABLE public."GroupMember" OWNER TO sammy;
+
+--
+-- Name: Member_member_id_seq; Type: SEQUENCE; Schema: public; Owner: sammy
+--
+
+CREATE SEQUENCE public."Member_member_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    MAXVALUE 16
+    CACHE 1;
+
+
+ALTER TABLE public."Member_member_id_seq" OWNER TO sammy;
+
+--
+-- Name: Member; Type: TABLE; Schema: public; Owner: sammy
+--
+
+CREATE TABLE public."Member" (
+    member_id bigint DEFAULT nextval('public."Member_member_id_seq"'::regclass) NOT NULL,
+    first_name character varying(20) NOT NULL,
+    last_name character varying(20) NOT NULL,
+    role character varying(30) NOT NULL,
+    employee boolean NOT NULL
+);
+
+
+ALTER TABLE public."Member" OWNER TO sammy;
+
+--
+-- Name: Phase; Type: TABLE; Schema: public; Owner: sammy
+--
+
+CREATE TABLE public."Phase" (
+    phase_id character varying(30) NOT NULL,
+    engagement_id character varying(30) NOT NULL,
+    group_id character varying(30) NOT NULL,
+    name character varying(500) NOT NULL,
+    step bigint NOT NULL,
+    expect_hours bigint NOT NULL,
+    actual_hours bigint NOT NULL
+);
+
+
+ALTER TABLE public."Phase" OWNER TO sammy;
+
+--
+-- Name: alembic_version; Type: TABLE; Schema: public; Owner: sammy
+--
+
+CREATE TABLE public.alembic_version (
+    version_num character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.alembic_version OWNER TO sammy;
+
+--
+-- Data for Name: Engagement; Type: TABLE DATA; Schema: public; Owner: sammy
+--
+
+COPY public."Engagement" (engagement_id, name, expect_hours, actual_hours, start_date, budgeted_hours, last_entry_date, hours_balance, inactive_days, finish_date) FROM stdin;
+TCC 0001	TCC Information Systems Corp_VMware one day T&M Consultancy Services delivered by a VMware Senior Consultant (TAIWAN)	24	24	2021-04-23 00:00:00	24	2021-05-13 00:00:00	0	471	2022-10-28 00:00:00
+THSR0001	Taiwan High Speed Rail Corporation_Vmware Cloud Foundation Design and Deploy Services(GCR)	995	983	2021-10-27 00:00:00	995	2022-08-15 00:00:00	12	12	2022-01-28 00:00:00
+TSMT0012	TSMC_VMware Network Virtualization Deployment Service(GCR)	120	44	2022-03-17 00:00:00	120	2022-08-02 00:00:00	76	25	2022-10-28 00:00:00
+KGIS0009	KGI Securities_VMware one day T&M Consultancy Services delivered by a VMware Senior Consultant (GCR)	24	2	2021-06-07 00:00:00	24	2022-08-09 00:00:00	22	18	2022-10-28 00:00:00
+TAMC0009	Taiwan Mobile Co Ltd_one day TM Consultancy services(GCR)	40	0	2022-07-08 00:00:00	40	\N	40	\N	2022-10-28 00:00:00
+SUNB0014	E.Sun Commercial Bank, Ltd_vSphere and vSan Deployment Services(GCR)	454	17	2022-05-11 00:00:00	454	2022-08-17 00:00:00	437	10	2022-10-28 00:00:00
+MICB0015	MEGA INTERNATIONAL COMMERCIAL_one day T&M Consultancy services(GCH)	40	40	2022-03-28 00:00:00	40	2022-07-27 00:00:00	0	31	2022-07-29 00:00:00
+ATI40001	ALLIANZ TAIWAN LIFE INSURANCE_VMware Virtualization Health Check Service Enterprise Medium_(GCR)	104	0	2022-07-29 00:00:00	104	\N	104	\N	2023-02-03 00:00:00
+TCPD0001	Taipei City Police Department_One day TM Consultancy Services(GCR)	40	0	2021-07-02 00:00:00	40	\N	40	\N	2021-07-02 00:00:00
+BOSP0007	Bank SinoPac_VMware Horizon Design and Deploy Services(GCR)	160	12	2022-06-08 00:00:00	160	2022-08-03 00:00:00	148	24	2022-10-28 00:00:00
+THSR0005	TAIWAN HIGH SPEED RAIL CO_VMware Virtualization Health Check Service Enterprise Medium(GCR)	104	8	2022-04-15 00:00:00	104	2022-08-16 00:00:00	96	11	2023-02-03 00:00:00
+MICB0013	Mega International Commercial Bank_Network Virtualization Planning Workshop_(GCR) 	32	32	2021-09-09 00:00:00	32	2022-04-26 00:00:00	0	123	2022-10-28 00:00:00
+TPOW0008	TaiwanPowerCompany_VMware one day T&M Consultancy Services (Taiwan)	32	32	2021-06-29 00:00:00	32	2021-07-16 00:00:00	0	407	2021-10-29 00:00:00
+ASE 0004	ASE_one day TM Consultancy Services(GCR)	40	0	2021-05-10 00:00:00	40	\N	40	\N	2021-05-10 00:00:00
+BCOM0002	BOOKS.COM CO., LTD._VMware one day T&M Consultancy Services delivered by a VMware Senior Consultant_GCR	40	0	2022-07-04 00:00:00	40	\N	40	\N	2022-10-28 00:00:00
+AFCH0001	Air Force Command Headquarters, Ministry of National Defense_VMware vRealize? Operations Manager Design and Implement Service(GCR)	521	379	2021-07-16 00:00:00	521	2022-08-19 00:00:00	142	8	2021-07-16 00:00:00
+FIIS0001	Financial Information Service_One Day TM Consultancy Services_(GCH)	40	40	2021-11-24 00:00:00	40	2022-07-26 00:00:00	0	32	2022-07-29 00:00:00
+WTCP0008	Wistron Corporation_VMware one day T&M Consultancy Services(GCR)	40	40	2022-03-24 00:00:00	40	2022-08-19 00:00:00	0	8	2022-05-31 00:00:00
+LBOT0015	Land Bank Of Taiwan_VMware Network Virtualization Deployment Service(GCR)	160	160	2021-08-26 00:00:00	160	2022-07-14 00:00:00	0	44	2022-10-28 00:00:00
+FIIS0002	Financial Information Service Co Ltd_Tanzu Design and Deployment Services_(GCR)	294	80	2022-05-12 00:00:00	294	2022-08-16 00:00:00	214	11	2022-10-28 00:00:00
+TPOW0004	Taiwan Power Company_22 TM days for Siemens_TM_(GChina)	189	189	2019-10-08 00:00:00	189	2022-01-19 00:00:00	0	220	2021-04-30 00:00:00
+TAMC0010	Taiwan Mobile Co Ltd_VMware one day T&M Consultancy Services_(GCR)	16	0	2022-08-04 00:00:00	16	\N	16	\N	2023-02-03 00:00:00
+TPOW0010	Taiwan Power Company_VCF Design and Deployment Services(GCR)	781	607	2022-01-24 00:00:00	781	2022-08-10 00:00:00	174	17	2022-07-29 00:00:00
+FARE0011	Far Eastone Telecommunications Co ltd_VMware TKG Design and Deploy Services(GCR)	168	162	2022-04-25 00:00:00	168	2022-08-16 00:00:00	6	11	2022-07-29 00:00:00
+PRIC0004	President Information Corp_One day T&M Consultancy Services (GChina)	40	40	2021-12-24 00:00:00	40	2022-02-10 00:00:00	0	198	2021-12-24 00:00:00
+FLIC0016	Fubon Insurance Co. Ltd_VMware vRealize Automation Project(GCR)	227	0	2022-04-14 00:00:00	227	\N	227	\N	2022-07-29 00:00:00
+SYSD0001	TAIWAN FIXED NETWORK CO LTD_NSX Design and Deployment(GCR)	302	0	2022-08-04 00:00:00	302	\N	302	\N	2023-02-03 00:00:00
+YFHC0012	Yuanta Financial Holding Co. Ltd_Workspace ONE UEM Design and Deployment(GCR)	210	210	2021-08-23 00:00:00	210	2022-06-15 00:00:00	0	73	2022-01-28 00:00:00
+FCBC0003	First Commercial Bank Co., Ltd_VMware VCF with Tanzu(GCR)	4897	66	2022-08-17 00:00:00	4897	2022-08-19 00:00:00	4831	8	2023-02-03 00:00:00
+ASE 0007	ADVANCED SEMICONDUCTOR ENGINEERING INC_Virtualization Health Check Service Enterprise Small(GCR)	52	2	2022-06-22 00:00:00	52	2022-08-12 00:00:00	50	15	2022-10-28 00:00:00
+MLI 0004	Mercuries Life insurance Co Ltd_VMware VCF with Tanzu(GCR)	2529	8	2022-08-18 00:00:00	2529	2022-08-18 00:00:00	2521	9	2023-02-03 00:00:00
+NCFH0007	NATIONAL CENTER FOR HIGH- PERFORMANCE COMPUTING_Mission-critical Cloud B Service(Taiwan)	412	412	2021-08-31 00:00:00	412	2022-01-14 00:00:00	0	225	2021-10-29 00:00:00
+CTBD0014	CTBC Financial Holding Co., Ltd._VMware vRealize? Automation Assessment and Implementation Service(GCR)	386	382	2022-03-11 00:00:00	386	2022-08-18 00:00:00	4	9	2022-10-28 00:00:00
+CHCF0002	Chailease Finance Co. Ltd_VMware Horizon Desktop Health Check_(GCR) 	72	54	2021-09-24 00:00:00	72	2022-08-02 00:00:00	18	25	2022-10-28 00:00:00
+VGHT0003	Taipei Veterans General Hospital_VMware Virtualization Health Check Service Enterprise Medium(GCR)	104	0	2022-07-22 00:00:00	104	\N	104	\N	2023-02-03 00:00:00
+MIIC0001	MITAC INTERNATIONAL CORP_One day TM Consultancy services_(GCR)	40	40	2022-04-19 00:00:00	40	2022-05-04 00:00:00	0	115	2022-09-15 00:00:00
+THSR0004	TAIWAN HIGH SPEED RAIL CO_VMware vSAN Health Check Service Enterprise Large(GCR)	196	0	2022-04-14 00:00:00	196	\N	196	\N	2022-04-14 00:00:00
+HHPI0005	HON HAI PRECISION INDUSTRY CO._VMware vSAN Deploy SKU Service - ELA Only_GCR	52	4	2022-07-21 00:00:00	52	2022-08-18 00:00:00	48	9	2023-02-03 00:00:00
+CPCL0025	CHUNGHWA POST CO., LTD._vRealize Automation Project(GCR)\t	0	0	2022-08-27 00:00:00	126	\N	0	\N	2022-08-27 00:00:00
+MOXA0002	Moxa Inc_Cloud Foundation Deployment_(GCR)	118	116	2022-01-26 00:00:00	118	2022-07-20 00:00:00	2	38	2022-04-29 00:00:00
+FARE0012	Far Eastone Telecommunications Co.Ltd_ VCF with Tanzu Project services(GCR)	311	0	2022-07-18 00:00:00	311	\N	311	\N	2022-10-28 00:00:00
+FCI 0006	Fiscal Information Agency_One day TM Consultancy Service_(GCR)	24	4	2021-08-23 00:00:00	24	2022-08-02 00:00:00	20	25	2022-10-28 00:00:00
+NPAM0006	NATIONAL POLICE AGENCY MINISTR_One day TM Consultancy Services(GCR)	32	8	2022-07-11 00:00:00	32	2022-08-08 00:00:00	24	19	2022-10-28 00:00:00
+HHPI0003	Hon Hai Precision Ind. Co., Ltd._VMware VCF Deployment Services(GCR)	596	594	2021-12-10 00:00:00	596	2022-05-25 00:00:00	2	94	2021-12-10 00:00:00
+MICB0017	Mega International Commercial Bank Co Ltd_vSphere & vRealize Automation Design and Deployment Service(GCR)	840	8	2022-04-27 00:00:00	840	2022-08-08 00:00:00	832	19	2022-10-28 00:00:00
+CBRP0001	Central Bank Of the Republic of China_NSX-T Design Service(GCR)	202	20	2022-04-28 00:00:00	202	2022-07-21 00:00:00	182	37	2022-07-29 00:00:00
+IXCO0003	INNOLUX CORPORATION_One day TM Consultancy Services_(GCR)	40	40	2021-12-16 00:00:00	40	2022-03-02 00:00:00	0	178	2022-10-28 00:00:00
+RSMI0002	REALTEK SEMICONDUCTOR CORP_Residency_14days TandM(GCR)	118	88	2020-09-02 00:00:00	118	2021-12-09 00:00:00	30	261	2021-01-29 00:00:00
+LBOT0018	Land Bank Of Taiwan_VCF with Tanzu Project_GCR	269	132	2022-06-21 00:00:00	269	2022-08-18 00:00:00	137	9	2022-10-28 00:00:00
+HHPI0004	Hon Hai Precision Ind. Co. Ltd_one day TM Consultancy Services(GCR)	40	40	2022-06-24 00:00:00	40	2022-08-15 00:00:00	0	12	2022-10-28 00:00:00
+WTCP0007	Wistron Corporation_VMware one day T&M Consultancy Services_(GCR)	40	0	2022-08-27 00:00:00	40	2022-03-21 00:00:00	40	159	2022-08-27 00:00:00
+FCBC0001	First Commercial Bank Co., Ltd_VMware Cloud Foundation Design Review(Taiwan)	218	214	2022-04-18 00:00:00	218	2022-07-07 00:00:00	4	51	2022-07-29 00:00:00
+CYII0009	Chung YO Internet Information Co. Ltd_VMware one day T and M Consultancy Services delivered by a VMware Senior Consultant (Taiwan)	40	40	2020-07-15 00:00:00	40	2021-01-22 00:00:00	0	582	2021-01-29 00:00:00
+PRIC0006	President information corp_NSX Design and Deployment(GCR)	504	286	2022-04-06 00:00:00	504	2022-08-19 00:00:00	218	8	2022-07-29 00:00:00
+ASE 0006	Advanced Semiconductor Enginee_One day TM Consultancy Services (GCR)	16	4	2022-01-07 00:00:00	16	2022-07-28 00:00:00	12	30	2022-07-29 00:00:00
+DOE10001	DEPARTMENT OF EDUCATION TAIPEI_VMware Virtualization Health Check Service Enterprise Small(GCR)	52	0	2022-07-21 00:00:00	52	\N	52	\N	2023-02-03 00:00:00
+TAMC0008	Taiwan Mobile Co., Ltd._vSAN Design and Deployment(GCR)	193	133	2021-09-02 00:00:00	193	2022-08-03 00:00:00	60	24	2022-07-29 00:00:00
+NCFH0008	NATIONAL CENTER FOR HIGH-PERFO_one day T&M Consultancy services(GCR)	40	8	2022-04-21 00:00:00	40	2022-04-29 00:00:00	32	120	2022-07-29 00:00:00
+DTCG0005	Department Of Information Technology Taipei City Government_vRA Project Services_(GCR)	286	80	2021-08-06 00:00:00	286	2022-08-16 00:00:00	206	11	2022-10-28 00:00:00
+TINB0011	Taishin International Bank Co., Ltd_ Taishin_Bank_09-Nov-2020(GCR)	252	224	2020-11-30 00:00:00	252	2022-08-11 00:00:00	28	16	2020-11-30 00:00:00
+MIIC0002	MITAC INTERNATIONAL CORP_One day T&M Consultancy services_GCR	16	16	2022-05-26 00:00:00	16	2022-06-10 00:00:00	0	78	2022-08-31 00:00:00
+NPAM0007	NATIONAL POLICE AGENCY MINISTR_VMware Virtualization Health Check Service Enterprise Medium (GCR)	104	0	2022-07-11 00:00:00	104	\N	104	\N	2022-10-28 00:00:00
+MIT40002	Mitac information Technology Corporation_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)	264	8	2022-07-22 00:00:00	264	2022-08-12 00:00:00	256	15	2023-01-27 00:00:00
+THSR0003	TAIWAN HIGH SPEED RAIL CO_VMware Network Virtualization Deployment and Application Security Adoption Service_(GCR)	264	264	2022-04-14 00:00:00	264	2022-08-04 00:00:00	0	23	2022-10-28 00:00:00
+YFHC0010	Yuanta Financial Holding Co. Ltd_Residency_25 days TM(GCR)	210	188	2020-09-09 00:00:00	210	2021-03-24 00:00:00	22	521	2021-04-30 00:00:00
+LBOT0016	LAND BANK OF TAIWAN_VSEC-CB-EDR-PS-DPY-GS-ESSL(GChina)	5	1	2021-10-28 00:00:00	5	2022-07-29 00:00:00	4	29	2022-10-28 00:00:00
+TPOW0012	TAIWAN POWER COMPANY_One day TM Consultancy Services(GCR)	40	28	2022-07-09 00:00:00	40	2022-07-13 00:00:00	12	45	2022-10-28 00:00:00
+TACB0005	Taiwan Cooperative Bank Co. Ltd_WS1 Design and Deployment(GCR)	244	64	2022-03-23 00:00:00	244	2022-08-19 00:00:00	180	8	2022-07-29 00:00:00
+HHPI0002	Hon Hai Precision Ind. Co., Ltd._Foxconn Logical Cloud Service(GCR)	554	550	2021-09-06 00:00:00	554	2022-06-20 00:00:00	4	68	2021-10-29 00:00:00
+TINB0016	Taishin International Bank Co Ltd_Taishin Bank 20 Days TnM(GCH)	160	47	2021-03-03 00:00:00	160	2022-08-10 00:00:00	113	17	2021-05-31 00:00:00
+DTCG0006	Department Of Information Technology_one day TM Consultany(GCR)	40	0	2022-07-07 00:00:00	40	\N	40	\N	2022-10-28 00:00:00
+MIT40001	MITAC INFORMATION TECHNOLOGY Corporation_one day T&M Consultancy Services (Taiwan)	40	24	2022-07-22 00:00:00	40	2022-08-16 00:00:00	16	11	2022-10-28 00:00:00
+TAIT0002	Taipei Fubon Commercial Bank Co. Ltd_VMware vRealize Automation Design and Implement Service(GCR)	496	0	2022-05-09 00:00:00	496	\N	496	\N	2022-05-09 00:00:00
+CTLA0001	Cigna Taiwan Life Assurance Company Ltd_VCF Deployment Services(GCR)	101	0	2022-08-27 00:00:00	101	2022-06-27 00:00:00	101	61	2022-08-27 00:00:00
+TSMT0013	TSMC_One day TM Consultancy services (GCR)	40	0	2022-03-17 00:00:00	40	\N	40	\N	2022-03-17 00:00:00
+NCOB0006	Next Commercial Bank_ vRealize Suite Design and Deployment Services(GCR)	815	275	2020-08-10 00:00:00	815	2022-06-16 00:00:00	540	72	2020-10-30 00:00:00
+NSBR0004	NATIONAL SECURITY BUREAU_28 days TM(GCH)	224	184	2022-01-28 00:00:00	224	2022-05-13 00:00:00	40	106	2022-07-29 00:00:00
+CYII0010	Chung YO Internet Information Co Ltd_Residency_24 Days TM (GCR)	221	161	2020-09-21 00:00:00	221	2022-08-10 00:00:00	60	17	2021-10-29 00:00:00
+TAIT0001	Taipei Fubon Commercial Bank Co., Ltd_VMware vRealize Automation Design and Deploy Services_(GChina)	819	775	2019-10-16 00:00:00	819	2022-08-19 00:00:00	44	8	2020-01-31 00:00:00
+CTBD0015	Ctbc Financial Holding Co. Ltd_VRA Project Service(GCR)	395	8	2022-08-10 00:00:00	395	2022-08-18 00:00:00	387	9	2023-02-03 00:00:00
+DGOH0002	DIRECTORATE GENERAL OF HIGHWAY_Virtualization Health Check Service Enterprise Medium(Taiwan)	80	0	2022-06-23 00:00:00	80	\N	80	\N	2022-10-28 00:00:00
+TPOW0009	TAIWAN POWER COMPAN_One day TM Consultancy Services(GCR)	40	40	2022-01-03 00:00:00	40	2022-05-06 00:00:00	0	113	2022-08-31 00:00:00
+CTCL0040	Chunghwa Telecom Co Ltd_NSX and VMware Cloud Director? Deployment (GCR)	176	0	2022-08-27 00:00:00	176	2021-09-27 00:00:00	176	334	2022-08-27 00:00:00
+PRIC0005	President Information Corp_vSphere and vRealize Operations Design and Implementation(GCR)	185	171	2022-01-07 00:00:00	185	2022-07-13 00:00:00	14	45	2022-04-29 00:00:00
+FUBO0001	Fubon Securities Co. Ltd_VMware vRealize Automation Project(GCR)	193	0	2022-04-13 00:00:00	193	\N	193	\N	2022-04-13 00:00:00
+UNTN0001	UNIMICRON TECHNOLOGY CORPORATION_VMware Horizon Desktop Health Check_(GCR) 	72	33	2022-07-08 00:00:00	72	2022-08-18 00:00:00	39	9	2022-10-28 00:00:00
+MLI 0001	Mercuries Life Insurance Co. Ltd_VMware one day T and M Consultancy Services delivered by a VMware Senior Consultant (TAIWAN)	40	40	2020-03-16 00:00:00	40	2022-08-19 00:00:00	0	8	2022-10-28 00:00:00
+BCOM0003	BOOKS.COM CO., LTD._VMware Virtualization Health Check Service Enterprise Medium 10 Days_GCR	80	0	2022-07-04 00:00:00	80	\N	80	\N	2022-10-28 00:00:00
+TCG 0005	Taipei City Government_one day TM Consultancy Services(GCR)	32	32	2021-05-21 00:00:00	32	2021-12-15 00:00:00	0	255	2021-10-29 00:00:00
+METI0024	MediaTek Inc_MTK_TM69 Days(GCR)(Taiwan)	844	654	2020-06-04 00:00:00	844	2022-06-02 00:00:00	190	86	2022-04-29 00:00:00
+CPCL0022	CHUNGHWA POST CO., LTD_One day TM Consultancy Services_(GCR)	40	40	2021-09-13 00:00:00	40	2021-10-05 00:00:00	0	326	2021-10-29 00:00:00
+NSHL0012	NAN SHAN LIFE INSURANCE CO., L_VMware Performance and Capacity Management Deploy(GCR)	88	0	2022-08-19 00:00:00	88	\N	88	\N	2023-02-03 00:00:00
+YFHC0011	Yuanta Financial Holding Co. Ltd_Residency 22 days TM(GCR)	185	175	2020-09-14 00:00:00	185	2022-07-29 00:00:00	10	29	2021-01-29 00:00:00
+LBTL0015	LINE Bank Taiwan Limited_VCF with Tanzu Project(GCR)	252	12	2022-07-03 00:00:00	252	2022-08-11 00:00:00	240	16	2022-10-28 00:00:00
+CHUO0003	ChungHwa Telecom Co Ltd_Cloud Service(GCR)	160	0	2022-08-27 00:00:00	160	2022-01-21 00:00:00	160	218	2022-08-27 00:00:00
+CHU 0010	Chunghwa Telecom Co Ltd_52 days TM (GCR)	416	376	2022-01-19 00:00:00	416	2022-07-26 00:00:00	40	32	2022-04-29 00:00:00
+BOSP0006	BANK SINOPAC_One day TM Consultancy Services(GCR)	24	24	2021-11-09 00:00:00	24	2022-07-05 00:00:00	0	53	2022-07-29 00:00:00
+NSHL0009	Nan Shan Life Insurance Co. Ltd_VMware vRealize Operations Manager Design and Implement Service(GCR)	403	186	2022-01-11 00:00:00	403	2022-08-16 00:00:00	217	11	2022-10-28 00:00:00
+SUNB0013	E.Sun Commercial Bank,Ltd_Tanzu Design and Deployment(GCR)\t	235	235	2022-04-19 00:00:00	235	2022-07-08 00:00:00	0	50	2022-04-19 00:00:00
+YFHC0022	Yuanta Financial Holding Co. Ltd_SRM Design and Deploy Services(GCR)\t	126	8	2022-06-27 00:00:00	126	2022-08-18 00:00:00	118	9	2022-10-28 00:00:00
+SUNB0015	E.Sun Commercial Bank Ltd_Tanzu Serverless Project(GCR)	1260	146	2022-07-21 00:00:00	1260	2022-08-19 00:00:00	1114	8	2023-02-03 00:00:00
+ILRI0002	Industrial Technology Research_One day TM Consultancy Services delivered(GCR)	32	32	2022-05-24 00:00:00	32	2022-08-02 00:00:00	0	25	2022-10-28 00:00:00
+YFHC0016	YUANTA FINANCIAL HOLDING CO.Ltd_one day T&M Consultancy services(GCR)	40	40	2022-05-24 00:00:00	40	2022-07-22 00:00:00	0	36	2022-10-28 00:00:00
+NSHL0010	Nan Shan Life Insurance Co Ltd_VMware vRealize? Automation Design and Implement Service_GCR	361	292	2022-02-28 00:00:00	361	2022-08-11 00:00:00	69	16	2022-04-29 00:00:00
+CPCL0023	CHUNGHWA POST CO. LTD_SDDC Design and Deploy Services(GCR)	689	645	2021-10-08 00:00:00	689	2022-07-25 00:00:00	44	33	2022-01-28 00:00:00
+acmh0001	Army Command Headquarters, MND_VMware vRealize? Operations Manager Design and Implement Service_(GCR)	521	395	2021-06-08 00:00:00	521	2022-08-01 00:00:00	126	26	2021-07-30 00:00:00
+CTBD0007	Ctbc Financial Holding Co. Ltd_Residency_20 days TM (GCR)	168	168	2021-05-10 00:00:00	168	2021-06-24 00:00:00	0	429	2021-10-29 00:00:00
+TCC 0002	TCC Information Systems Corp_ VMware one day T&M Consultancy Services delivered by a VMware Senior Consultant(GCR)	40	16	2021-05-26 00:00:00	40	2021-06-25 00:00:00	24	428	2022-10-28 00:00:00
+SUNB0011	E.Sun Commercial Bank, Ltd_VMware vRealize? Operations Manager Design and Implement Service(GCR)\t	235	235	2021-11-05 00:00:00	235	2022-06-30 00:00:00	0	58	2022-07-29 00:00:00
+CHWT0001	CHUNGHWA TELECOM CO., LTD_VMware Network Virtualization Deployment Service(GCR)	20	0	2022-08-20 00:00:00	20	\N	20	\N	2023-02-03 00:00:00
+HUAN0009	Hua Nan Commercial Bank_HNCB(GCR)	126	120	2021-01-08 00:00:00	126	2022-07-19 00:00:00	6	39	2021-01-29 00:00:00
+VGHT0004	Taipei Veterans General Hospital_one day Consultancy TM(GCR)	16	8	2022-07-22 00:00:00	16	2022-08-17 00:00:00	8	10	2023-02-03 00:00:00
+MIIC0003	MITAC INTERNATIONAL CORP_Virtualization Health Check Service Enterprise Small_GCR	52	52	2022-05-26 00:00:00	52	2022-06-27 00:00:00	0	61	2022-10-28 00:00:00
+CHCF0001	Chailease Finance Co. Ltd_One day TM Consultancy Services_(GCR) 	40	40	2021-09-24 00:00:00	40	2021-11-04 00:00:00	0	296	2022-10-28 00:00:00
+DTCG0004	Taipei City Government_Vmware Virtualization Health Check Service Enterprise Small(GCR)	48	48	2021-04-08 00:00:00	48	2021-05-04 00:00:00	0	480	2021-07-30 00:00:00
+FCI 0007	Fiscal Information Agency Ministry Of Finance_VMware Network Virtualization Deployment and Application Security Adoption Service(GCR)	264	264	2021-08-19 00:00:00	264	2022-08-05 00:00:00	0	22	2022-10-28 00:00:00
+YFHC0017	Yuanta Financial Holding Co., Ltd_VMware vRealize Automation Design and Implement Service(GCR)	185	29	2022-07-19 00:00:00	185	2022-08-19 00:00:00	156	8	2022-10-28 00:00:00
+NSHL0011	NAN SHAN LIFE INSURANCE CO., L_VMware one day T&M Consultancy services(GCR) 	40	0	2022-08-19 00:00:00	40	\N	40	\N	2023-02-03 00:00:00
+MOXA0001	Moxa Inc_one day T&M Consultancy services(GCR)	40	40	2022-01-11 00:00:00	40	2022-03-11 00:00:00	0	169	2022-04-29 00:00:00
+LBTL0012	LINE Bank Taiwan Limited_New environment VCF project_30 Days TM_GCR	252	158	2021-10-08 00:00:00	252	2022-07-06 00:00:00	94	52	2022-07-29 00:00:00
+HSCL0001	HAN SHAN CO., LTD_One day TM Consultancy Services (GCR)	16	16	2021-05-11 00:00:00	16	2022-01-12 00:00:00	0	227	2022-09-30 00:00:00
+SUNB0009	ESUN BANK_VMware vRealize Automation Integration(Taiwan)	24	24	2021-06-29 00:00:00	24	2022-07-29 00:00:00	0	29	2022-07-29 00:00:00
+DLEI0015	Delta Electronics Inc_DELATA 21 days TnM_Jan 2021_21 days TM(GCR)	168	122	2021-02-05 00:00:00	168	2022-08-08 00:00:00	46	19	2021-07-30 00:00:00
+NCSI0011	National Chung-Shan Institute Of Science & Technology_NCSIST 75 daysTnM_75DaysTM(TAIWAN)	800	737	2021-02-08 00:00:00	800	2022-08-18 00:00:00	63	9	2022-10-28 00:00:00
+TLNC0002	TRANSGLOBE LIFE INSURANCE INC_VMware one day T&M Consultancy Services(GCR)	40	40	2021-12-28 00:00:00	40	2022-05-25 00:00:00	0	94	2022-10-28 00:00:00
+SNEX0001	SYNNEX TECHNOLOGY INTERNATIONAL CORPORATION_one day TM Consultancy Services(GCR)	40	40	2021-08-09 00:00:00	40	2021-09-24 00:00:00	0	337	2021-10-29 00:00:00
+FARE0009	FAR EASTONE TELECOMMUNICATIONS CO., LTD_VCD upgrade Project services_(GCR)	638	612	2021-11-08 00:00:00	638	2022-08-19 00:00:00	26	8	2022-04-29 00:00:00
+HSCL0002	HAN SHAN CO., LTD_VMware Network Virtualization Planning (GCR)	28	4	2021-05-11 00:00:00	28	2022-05-27 00:00:00	24	92	2022-07-29 00:00:00
+NCSI0017	NATIONAL CHUNG-SHAN INSTITUTE OF SCIENCE AND TECHNOLOGY_VFC Design and Deployment Services(GCR)	630	542	2021-09-09 00:00:00	630	2022-08-16 00:00:00	88	11	2022-01-28 00:00:00
+TAIL0003	Taiwan Star Telecom Co. Ltd_one day TM Consultancy Services(GCH)	32	12	2021-07-01 00:00:00	32	2022-08-17 00:00:00	20	10	2021-10-29 00:00:00
+DGOH0003	DIRECTORATE GENERAL OF HIGHWAY_one day T&M Consultancy Services(Taiwan)	24	0	2022-06-23 00:00:00	24	\N	24	\N	2022-10-28 00:00:00
+EL170001	7-ELEVEN_VMware one day T&M Consultancy services _(GCR)	40	12	2021-08-30 00:00:00	40	2022-08-10 00:00:00	28	17	2022-10-28 00:00:00
+NCSI0013	National Chung-Shan Institute of Science and Technology_VSEC-CB-EDR-PS-DPY-GS-ESSL(GCH)	5	0	2021-03-17 00:00:00	0	2021-03-19 00:00:00	5	526	2023-11-03 00:00:00
+SUNB0008	ESUN BANK_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)	240	240	2021-06-28 00:00:00	240	2022-04-08 00:00:00	0	141	2022-08-31 00:00:00
+FEIL0001	FAR EASTERN INTERNATIONAL BANK_one day T&M Consultancy services(GCR)	40	0	2022-05-26 00:00:00	40	\N	40	\N	2022-10-28 00:00:00
+TCG 0004	Taipei City Government_VMWare Network Virtualization Planning Workshop (GCR)	32	28	2021-05-21 00:00:00	32	2022-08-19 00:00:00	4	8	2022-10-28 00:00:00
+CHUO0002	Chunghwa Telecom Co Ltd_NSX Design and Deployment (GCR)	420	0	2022-08-27 00:00:00	420	2022-01-13 00:00:00	420	226	2022-08-27 00:00:00
+CATN0004	CATHAY LIFE INSURANCE CO. LTD_One day TM consultancy(GCR)	40	4	2022-07-21 00:00:00	40	2022-08-17 00:00:00	36	10	2023-02-03 00:00:00
+HHPI0001	Hon Hai Precision Ind. Co. Ltd_one day TM Consultancy Services(GCR)	40	40	2021-08-23 00:00:00	40	2021-09-02 00:00:00	0	359	2021-10-29 00:00:00
+FUBN0012	Fubon Financial Holding Co LTD_VMware vRealize Automation Project Services(GCR)	227	0	2022-04-18 00:00:00	227	\N	227	\N	2022-04-18 00:00:00
+TAIT0003	Taipei Fubon Commercial Bank Co. Ltd_vRealize Automation Project(GCR)	806	59	2022-07-28 00:00:00	806	2022-08-16 00:00:00	747	11	2023-02-03 00:00:00
+ILRI0003	Industrial Technology Research_Virtualization Health Check Service Enterprise Small(GCR)	52	52	2022-05-24 00:00:00	52	2022-08-03 00:00:00	0	24	2022-10-28 00:00:00
+MSIG0002	MSIG Mingtai Insurance CO.LTD_VMware Virtualization Health Check Service Enterprise Small (TAIWAN)	52	17	2020-10-09 00:00:00	52	2022-08-09 00:00:00	35	18	2022-10-28 00:00:00
+SNEX0002	SYNNEX TECHNOLOGY INTERNATIONAL CORPORATION_DB Virtualization Project(GCR)	353	283	2021-09-22 00:00:00	353	2022-07-25 00:00:00	70	33	2022-01-28 00:00:00
+ASE 0005	ADVANCED SEMICONDUCTOR ENGINEERING INC_ASE_8 Days T&M(GCR)	67	67	2021-05-21 00:00:00	67	2022-08-03 00:00:00	0	24	2021-10-29 00:00:00
+\.
+
+
+--
+-- Data for Name: Group; Type: TABLE DATA; Schema: public; Owner: sammy
+--
+
+COPY public."Group" (group_id, phase_id, internal_hours, subb_hours) FROM stdin;
+\.
+
+
+--
+-- Data for Name: GroupMember; Type: TABLE DATA; Schema: public; Owner: sammy
+--
+
+COPY public."GroupMember" (group_id, member_id, expect_hours, actual_hours, engagement_id, phase_name) FROM stdin;
+G-EL170001-00	154144	40	12	EL170001	5 Days_7-ELEVEN_VMware one day T M Consultancy services _(GCR)
+G-ASE 0006-00	378136	16	4	ASE 0006	2 days_Advanced Semiconductor Enginee_One day TM Consultancy Services (GCR)
+G-ASE 0005-00	379877	60	60	ASE 0005	VMware Consultant 8 days (64 Hours)
+G-ASE 0005-00	378136	4	4	ASE 0005	VMware Consultant 8 days (64 Hours)
+G-ASE 0005-00	339466	3	3	ASE 0005	Blended VMware Project manager 0.4 Days (3.2 Hours)
+G-ASE 0007-00	379877	52	2	ASE 0007	ADVANCED SEMICONDUCTOR ENGINEERING INC_Virtualization Health Check Service Enterprise Small_6.5 days
+G-AFCH0001-02	140186	4	4	AFCH0001	MS2
+G-AFCH0001-01	140186	8	8	AFCH0001	MS1
+G-AFCH0001-03	140186	8	8	AFCH0001	MS3
+G-AFCH0001-02	148713	6	6	AFCH0001	MS2
+G-AFCH0001-03	148713	29	29	AFCH0001	MS3
+G-AFCH0001-02	379877	8	8	AFCH0001	MS2
+G-AFCH0001-01	379877	22	22	AFCH0001	MS1
+G-AFCH0001-03	379877	94	94	AFCH0001	MS3
+G-AFCH0001-03	378618	8	8	AFCH0001	MS3
+G-AFCH0001-01	378136	4	4	AFCH0001	MS1
+G-AFCH0001-02	378136	8	8	AFCH0001	MS2
+G-AFCH0001-03	378136	161	71	AFCH0001	MS3
+G-AFCH0001-03	396478	4	4	AFCH0001	MS3
+G-AFCH0001-01	154144	6	6	AFCH0001	MS1
+G-AFCH0001-03	154144	32	32	AFCH0001	MS3
+G-AFCH0001-02	394544	16	16	AFCH0001	MS2
+G-AFCH0001-03	394544	40	40	AFCH0001	MS3
+G-AFCH0001-01	398786	8	8	AFCH0001	MS1
+G-AFCH0001-03	339466	3	3	AFCH0001	MS3
+G-acmh0001-02	140186	3	3	acmh0001	MS2
+G-acmh0001-03	140186	5	5	acmh0001	MS3
+G-acmh0001-01	140186	12	12	acmh0001	MS1
+G-acmh0001-01	148713	11	11	acmh0001	MS1
+G-acmh0001-01	378618	12	12	acmh0001	MS1
+G-acmh0001-02	378618	24	24	acmh0001	MS2
+G-acmh0001-03	378618	118	118	acmh0001	MS3
+G-acmh0001-03	396478	24	24	acmh0001	MS3
+G-acmh0001-01	154144	12	12	acmh0001	MS1
+G-acmh0001-02	154144	24	24	acmh0001	MS2
+G-acmh0001-03	154144	232	146	acmh0001	MS3
+G-acmh0001-01	394544	4	4	acmh0001	MS1
+G-BOSP0006-00	379877	20	20	BOSP0006	BANK SINOPAC_One day TM Consultancy Services(GCR)
+G-BOSP0006-00	394544	4	4	BOSP0006	BANK SINOPAC_One day TM Consultancy Services(GCR)
+G-BOSP0007-01	379877	12	8	BOSP0007	MS1
+G-BOSP0007-01	424744	4	4	BOSP0007	MS1
+G-CATN0004-00	378618	40	4	CATN0004	CATHAY LIFE INSURANCE CO. LTD_One day TM consultancy(GCR)
+G-CBRP0001-01	378618	16	16	CBRP0001	MS1
+G-CBRP0001-01	339466	4	4	CBRP0001	MS1
+G-CHCF0001-00	398786	40	40	CHCF0001	5 Days_Chailease Finance Co. Ltd_One day T M Consultancy Services_(GCR)
+G-CHCF0002-00	140186	16	0	CHCF0002	Chailease Finance Co. Ltd_VMware Horizon Desktop Health Check_(GCR)
+G-CHCF0002-00	398786	56	54	CHCF0002	Chailease Finance Co. Ltd_VMware Horizon Desktop Health Check_(GCR)
+G-CYII0010-00	148713	3	3	CYII0010	PCR001/VMware Consulting Architect _5 Days TM(40hrs)
+G-CYII0010-00	379877	4	4	CYII0010	PCR001/VMware Consulting Architect _5 Days TM(40hrs)
+G-CYII0010-00	379877	16	16	CYII0010	PCR001/VMware Assosciate Consultant 1_19 days TM(152hrs)
+G-CYII0010-00	378618	4	4	CYII0010	PCR001/VMware Assosciate Consultant 1_19 days TM(152hrs)
+G-CYII0010-00	396478	60	0	CYII0010	PCR001/Vmware Associate Consultant II_7.5 days TM(60 hrs)
+G-CYII0010-00	394544	134	134	CYII0010	PCR001/VMware Assosciate Consultant 1_19 days TM(152hrs)
+G-CYII0009-00	394544	40	40	CYII0009	5 Days * Chung YO Internet Information Co. Ltd_VMware one day T and M Consultancy Services delivered by a VMware Senior Consultant (Taiwan)
+G-CPCL0023-02	140186	15	15	CPCL0023	MS2
+G-CPCL0023-01	140186	23	23	CPCL0023	MS1
+G-CPCL0023-03	417372	39	39	CPCL0023	MS3
+G-CPCL0023-01	396478	34	34	CPCL0023	MS1
+G-CPCL0023-04	396478	40	0	CPCL0023	MS4
+G-CPCL0023-02	396478	44	44	CPCL0023	MS2
+G-CPCL0023-03	396478	282	284	CPCL0023	MS3
+G-CPCL0023-02	154144	4	4	CPCL0023	MS2
+G-CPCL0023-01	154144	12	12	CPCL0023	MS1
+G-CPCL0023-03	154144	188	182	CPCL0023	MS3
+G-CPCL0023-03	339466	8	8	CPCL0023	MS3
+G-CPCL0022-00	396478	32	32	CPCL0022	5 days_CHUNGHWA POST CO., LTD._One day TM Consultancy Services_(GCR)
+G-CPCL0022-00	154144	8	8	CPCL0022	5 days_CHUNGHWA POST CO., LTD._One day TM Consultancy Services_(GCR)
+G-CHU 0010-00	379877	64	64	CHU 0010	Consultant_12 days TM (96 HRS)
+G-CHU 0010-00	378618	8	8	CHU 0010	Consultant_12 days TM (96 HRS)
+G-CHU 0010-00	378618	124	124	CHU 0010	Senior Consultant_35 days TM (280 HRS)
+G-CHU 0010-00	378136	22	22	CHU 0010	Consultant_12 days TM (96 HRS)
+G-CHU 0010-00	378136	156	156	CHU 0010	Senior Consultant_35 days TM (280 HRS)
+G-CHU 0010-00	394544	2	2	CHU 0010	Consultant_12 days TM (96 HRS)
+G-CTBD0007-00	140186	8	8	CTBD0007	Blended Vmware Project Manager_1 day TM (8HRS)
+G-CTBD0007-00	378618	80	80	CTBD0007	Vmware Consultant_10days TM (80HRS)
+G-CTBD0007-00	154144	80	80	CTBD0007	Vmware Senior Consultant_10days TM (80HRS)
+G-CTBD0015-01	378618	8	8	CTBD0015	MS1
+G-CTBD0014-03	417372	35	35	CTBD0014	MS3
+G-CTBD0014-02	378618	12	12	CTBD0014	MS2
+G-CTBD0014-01	378618	14	14	CTBD0014	MS1
+G-CTBD0014-04	378618	24	24	CTBD0014	MS4
+G-CTBD0014-03	378618	126	126	CTBD0014	MS3
+G-CTBD0014-04	154144	8	8	CTBD0014	MS4
+G-CTBD0014-01	154144	12	12	CTBD0014	MS1
+G-CTBD0014-02	154144	18	18	CTBD0014	MS2
+G-CTBD0014-03	154144	106	106	CTBD0014	MS3
+G-CTBD0014-01	398786	4	4	CTBD0014	MS1
+G-CTBD0014-02	398786	11	11	CTBD0014	MS2
+G-CTBD0014-01	339466	3	3	CTBD0014	MS1
+G-CTBD0014-04	339466	4	0	CTBD0014	MS4
+G-CTBD0014-03	339466	9	9	CTBD0014	MS3
+G-DLEI0015-00	140186	32	32	DLEI0015	VMware Engagement manager_4 days TM(32 hrs)@28.98 CPD
+G-DLEI0015-00	148713	96	50	DLEI0015	VMware Senior Consultant_17 Days TM(136hrs)@ 16.83 cpd
+G-DLEI0015-00	329252	40	40	DLEI0015	VMware Senior Consultant_17 Days TM(136hrs)@ 16.83 cpd
+G-DTCG0005-03	378618	16	8	DTCG0005	MS3
+G-DTCG0005-03	398786	24	14	DTCG0005	MS3
+G-DTCG0005-01	398786	26	26	DTCG0005	MS1
+G-DTCG0005-02	398786	28	28	DTCG0005	MS2
+G-DTCG0005-01	339466	4	4	DTCG0005	MS1
+G-SUNB0015-02	417372	32	14	SUNB0015	MS2
+G-SUNB0015-01	417372	37	37	SUNB0015	MS1
+G-SUNB0015-02	424694	46	8	SUNB0015	MS2
+G-SUNB0015-01	424694	56	56	SUNB0015	MS1
+G-SUNB0015-02	378618	16	4	SUNB0015	MS2
+G-SUNB0015-02	154144	16	4	SUNB0015	MS2
+G-SUNB0015-02	424744	16	0	SUNB0015	MS2
+G-SUNB0015-01	424744	23	23	SUNB0015	MS1
+G-SUNB0011-04	417372	6	6	SUNB0011	MS4
+G-SUNB0011-03	417372	20	20	SUNB0011	MS3
+G-SUNB0011-03	148713	4	4	SUNB0011	MS3
+G-SUNB0011-03	378618	8	8	SUNB0011	MS3
+G-SUNB0011-03	378136	18	18	SUNB0011	MS3
+G-SUNB0011-04	396478	8	8	SUNB0011	MS4
+G-SUNB0011-03	396478	24	24	SUNB0011	MS3
+G-SUNB0011-04	154144	9	9	SUNB0011	MS4
+G-SUNB0011-01	154144	12	12	SUNB0011	MS1
+G-SUNB0011-02	154144	24	24	SUNB0011	MS2
+G-SUNB0011-03	154144	88	88	SUNB0011	MS3
+G-SUNB0011-01	394544	8	8	SUNB0011	MS1
+G-SUNB0011-03	339466	2	2	SUNB0011	MS3
+G-SUNB0011-01	339466	4	4	SUNB0011	MS1
+G-SUNB0014-01	378136	20	12	SUNB0014	MS1
+G-SUNB0014-01	398786	20	0	SUNB0014	MS1
+G-SUNB0014-01	424744	5	5	SUNB0014	MS1
+G-SUNB0013-02	417372	8	8	SUNB0013	MS2
+G-SUNB0013-03	417372	38	38	SUNB0013	MS3
+G-SUNB0013-03	148713	4	4	SUNB0013	MS3
+G-SUNB0013-01	148713	6	6	SUNB0013	MS1
+G-SUNB0013-04	424694	14	14	SUNB0013	MS4
+G-SUNB0013-03	424694	29	29	SUNB0013	MS3
+G-SUNB0013-03	378618	16	16	SUNB0013	MS3
+G-SUNB0013-02	378136	4	4	SUNB0013	MS2
+G-SUNB0013-03	378136	14	14	SUNB0013	MS3
+G-SUNB0013-04	396478	4	4	SUNB0013	MS4
+G-SUNB0013-01	396478	8	8	SUNB0013	MS1
+G-SUNB0013-02	396478	16	16	SUNB0013	MS2
+G-SUNB0013-03	396478	64	64	SUNB0013	MS3
+G-SUNB0013-01	154144	8	8	SUNB0013	MS1
+G-SUNB0013-01	339466	2	2	SUNB0013	MS1
+G-SUNB0008-00	140186	20	20	SUNB0008	ESUN BANK_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)
+G-SUNB0008-00	417372	54	54	SUNB0008	ESUN BANK_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)
+G-SUNB0008-00	148713	4	4	SUNB0008	ESUN BANK_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)
+G-SUNB0008-00	378618	4	4	SUNB0008	ESUN BANK_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)
+G-SUNB0008-00	378136	42	42	SUNB0008	ESUN BANK_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)
+G-SUNB0008-00	396478	8	8	SUNB0008	ESUN BANK_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)
+G-SUNB0008-00	154144	98	98	SUNB0008	ESUN BANK_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)
+G-SUNB0008-00	394544	10	10	SUNB0008	ESUN BANK_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)
+G-SUNB0009-00	417372	4	4	SUNB0009	ESUN BANK_VMware vRealize Automation Integration(Taiwan)
+G-SUNB0009-00	424694	20	20	SUNB0009	ESUN BANK_VMware vRealize Automation Integration(Taiwan)
+G-FARE0011-03	379877	16	16	FARE0011	MS3
+G-FARE0011-01	378618	11	11	FARE0011	MS1
+G-FARE0011-02	378618	13	13	FARE0011	MS2
+G-FARE0011-03	378618	81	81	FARE0011	MS3
+G-FARE0011-04	398786	10	4	FARE0011	MS4
+G-FARE0011-03	398786	24	24	FARE0011	MS3
+G-FARE0011-04	339466	3	3	FARE0011	MS4
+G-FARE0011-02	339466	4	4	FARE0011	MS2
+G-FARE0011-01	339466	6	6	FARE0011	MS1
+G-FARE0013-00	395322	2080	0	FARE0013	22027 - Cloud Native Architect (Solution Architect) 
+G-FARE0009-01	140186	10	10	FARE0009	MS1
+G-FARE0009-03	417372	13	13	FARE0009	MS3
+G-FARE0009-01	379877	34	34	FARE0009	MS1
+G-FARE0009-02	379877	49	49	FARE0009	MS2
+G-FARE0009-04	379877	56	32	FARE0009	MS4
+G-FARE0009-03	379877	322	322	FARE0009	MS3
+G-FARE0009-03	424694	12	12	FARE0009	MS3
+G-FARE0009-04	378618	4	2	FARE0009	MS4
+G-FARE0009-02	378618	15	15	FARE0009	MS2
+G-FARE0009-03	378618	89	89	FARE0009	MS3
+G-FARE0009-01	378136	8	8	FARE0009	MS1
+G-FARE0009-01	394544	6	6	FARE0009	MS1
+G-FARE0009-03	398786	2	2	FARE0009	MS3
+G-FARE0009-04	398786	4	4	FARE0009	MS4
+G-FARE0009-01	339466	6	6	FARE0009	MS1
+G-FARE0009-03	339466	8	8	FARE0009	MS3
+G-FIIS0002-02	417372	2	2	FIIS0002	MS2
+G-FIIS0002-01	417372	22	22	FIIS0002	MS1
+G-FIIS0002-03	417372	28	0	FIIS0002	MS3
+G-FIIS0002-01	379877	12	12	FIIS0002	MS1
+G-FIIS0002-02	379877	12	4	FIIS0002	MS2
+G-FIIS0002-03	379877	92	24	FIIS0002	MS3
+G-FIIS0002-02	424694	16	8	FIIS0002	MS2
+G-FIIS0002-03	424694	72	4	FIIS0002	MS3
+G-FIIS0002-03	424744	6	0	FIIS0002	MS3
+G-FIIS0002-01	339466	4	4	FIIS0002	MS1
+G-FIIS0001-00	417372	16	16	FIIS0001	5 Days_Financial Information Service_One Day TM Consultancy Services_(GCH)
+G-FIIS0001-00	379877	18	18	FIIS0001	5 Days_Financial Information Service_One Day TM Consultancy Services_(GCH)
+G-FIIS0001-00	378618	6	6	FIIS0001	5 Days_Financial Information Service_One Day TM Consultancy Services_(GCH)
+G-FCBC0002-00	390655	100	109	FCBC0002	VMware Agile product manager_30 Days TM(240 HRS)
+G-FCBC0002-00	390655	200	36	FCBC0002	21691 - Agile Product Manager (Product Manager) 
+G-FCBC0001-01	417372	2	2	FCBC0001	MS1
+G-FCBC0001-02	417372	4	4	FCBC0001	MS2
+G-FCBC0001-03	417372	68	68	FCBC0001	MS3
+G-FCBC0001-04	148713	4	4	FCBC0001	MS4
+G-FCBC0001-02	148713	8	8	FCBC0001	MS2
+G-FCBC0001-01	148713	14	14	FCBC0001	MS1
+G-FCBC0001-03	148713	28	28	FCBC0001	MS3
+G-FCBC0001-03	424694	2	2	FCBC0001	MS3
+G-FCBC0001-03	378618	14	14	FCBC0001	MS3
+G-FCBC0001-02	378136	8	8	FCBC0001	MS2
+G-FCBC0001-04	378136	8	4	FCBC0001	MS4
+G-FCBC0001-03	378136	46	46	FCBC0001	MS3
+G-FCBC0001-03	154144	8	8	FCBC0001	MS3
+G-FCBC0001-01	339466	4	4	FCBC0001	MS1
+G-FCBC0003-01	417372	32	12	FCBC0003	MS1
+G-FCBC0003-01	148713	40	12	FCBC0003	MS1
+G-FCBC0003-01	424694	40	18	FCBC0003	MS1
+G-FCBC0003-01	378618	24	4	FCBC0003	MS1
+G-FCBC0003-01	378136	8	0	FCBC0003	MS1
+G-FCBC0003-01	396478	40	4	FCBC0003	MS1
+G-FCBC0003-01	398786	24	0	FCBC0003	MS1
+G-FCBC0003-01	424744	40	16	FCBC0003	MS1
+G-FCI 0007-00	140186	34	34	FCI 0007	Fiscal Information Agency Ministry Of Finance_VMware Network Virtualization Deployment and Application Security Adoption Service(GCR)
+G-FCI 0007-00	148713	5	5	FCI 0007	Fiscal Information Agency Ministry Of Finance_VMware Network Virtualization Deployment and Application Security Adoption Service(GCR)
+G-FCI 0007-00	378618	20	20	FCI 0007	Fiscal Information Agency Ministry Of Finance_VMware Network Virtualization Deployment and Application Security Adoption Service(GCR)
+G-FCI 0007-00	154144	111	111	FCI 0007	Fiscal Information Agency Ministry Of Finance_VMware Network Virtualization Deployment and Application Security Adoption Service(GCR)
+G-FCI 0007-00	394544	82	82	FCI 0007	Fiscal Information Agency Ministry Of Finance_VMware Network Virtualization Deployment and Application Security Adoption Service(GCR)
+G-FCI 0007-00	424744	4	4	FCI 0007	Fiscal Information Agency Ministry Of Finance_VMware Network Virtualization Deployment and Application Security Adoption Service(GCR)
+G-FCI 0007-00	339466	8	8	FCI 0007	Fiscal Information Agency Ministry Of Finance_VMware Network Virtualization Deployment and Application Security Adoption Service(GCR)
+G-FCI 0006-00	378618	8	4	FCI 0006	3_Fiscal Information Agency_VMware one day T&M Consultancy Service_(GCR)
+G-FCI 0006-00	154144	16	0	FCI 0006	3_Fiscal Information Agency_VMware one day T&M Consultancy Service_(GCR)
+G-HSCL0001-00	394544	16	16	HSCL0001	2 days_HAN SHAN CO., LTD_One day TM Consultancy Services (GCR)
+G-HSCL0002-00	394544	28	4	HSCL0002	3.5 days_HAN SHAN CO., LTD_VMware Network Virtualization Planning (GCR)
+G-HHPI0001-00	148713	14	14	HHPI0001	Hon Hai Precision Ind. Co. Ltd_one day TM Consultancy Services(GCR)
+G-HHPI0001-00	378136	26	26	HHPI0001	Hon Hai Precision Ind. Co. Ltd_one day TM Consultancy Services(GCR)
+G-HHPI0004-00	378136	16	16	HHPI0004	Hon Hai Precision Ind. Co. Ltd_one day TM Consultancy Services(GCR)
+G-HHPI0004-00	394544	24	24	HHPI0004	Hon Hai Precision Ind. Co. Ltd_one day TM Consultancy Services(GCR)
+G-HHPI0002-01	140186	6	6	HHPI0002	MS1
+G-HHPI0002-03	140186	8	8	HHPI0002	MS3
+G-HHPI0002-04	148713	1	1	HHPI0002	MS4
+G-HHPI0002-01	148713	16	16	HHPI0002	MS1
+G-HHPI0002-02	148713	22	22	HHPI0002	MS2
+G-HHPI0002-03	148713	135	135	HHPI0002	MS3
+G-HHPI0002-03	379877	12	12	HHPI0002	MS3
+G-HHPI0002-03	378618	20	20	HHPI0002	MS3
+G-HHPI0002-04	378136	15	11	HHPI0002	MS4
+G-HHPI0002-02	378136	44	44	HHPI0002	MS2
+G-HHPI0002-03	378136	105	105	HHPI0002	MS3
+G-HHPI0002-01	396478	8	8	HHPI0002	MS1
+G-HHPI0002-03	396478	68	68	HHPI0002	MS3
+G-HHPI0002-03	394544	13	13	HHPI0002	MS3
+G-HHPI0002-04	398786	3	3	HHPI0002	MS4
+G-HHPI0002-02	398786	8	8	HHPI0002	MS2
+G-HHPI0002-01	398786	12	12	HHPI0002	MS1
+G-HHPI0002-03	398786	54	54	HHPI0002	MS3
+G-HHPI0002-01	339466	4	4	HHPI0002	MS1
+G-HHPI0003-02	148713	5	5	HHPI0003	MS2
+G-HHPI0003-01	148713	18	18	HHPI0003	MS1
+G-HHPI0003-03	148713	55	55	HHPI0003	MS3
+G-HHPI0003-04	379877	4	4	HHPI0003	MS4
+G-HHPI0003-01	378136	8	8	HHPI0003	MS1
+G-HHPI0003-04	378136	14	12	HHPI0003	MS4
+G-HHPI0003-02	378136	68	68	HHPI0003	MS2
+G-HHPI0003-03	378136	228	228	HHPI0003	MS3
+G-HHPI0003-03	154144	4	4	HHPI0003	MS3
+G-HHPI0003-01	394544	8	8	HHPI0003	MS1
+G-HHPI0003-04	394544	12	12	HHPI0003	MS4
+G-HHPI0003-03	394544	56	56	HHPI0003	MS3
+G-HHPI0003-01	398786	20	20	HHPI0003	MS1
+G-HHPI0003-03	398786	96	96	HHPI0003	MS3
+G-HHPI0005-00	394544	40	4	HHPI0005	HON HAI PRECISION INDUSTRY CO._VMware vSAN Deploy SKU Service - ELA Only_GCR
+G-HUAN0009-01	140186	4	4	HUAN0009	MS1
+G-HUAN0009-03	140186	8	8	HUAN0009	MS3
+G-HUAN0009-02	148713	13	13	HUAN0009	MS2
+G-HUAN0009-03	148713	24	24	HUAN0009	MS3
+G-HUAN0009-01	398786	8	8	HUAN0009	MS1
+G-HUAN0009-02	398786	9	9	HUAN0009	MS2
+G-HUAN0009-04	398786	10	4	HUAN0009	MS4
+G-HUAN0009-03	398786	50	50	HUAN0009	MS3
+G-ILRI0002-00	148713	24	24	ILRI0002	4 days_Industrial Technology Research_One day TM Consultancy Services delivered(GCR)
+G-ILRI0002-00	378618	8	8	ILRI0002	4 days_Industrial Technology Research_One day TM Consultancy Services delivered(GCR)
+G-ILRI0003-00	148713	31	31	ILRI0003	6.5 days_Industrial Technology Research_Virtualization Health Check Service Enterprise Small(GCR)
+G-ILRI0003-00	378618	18	18	ILRI0003	6.5 days_Industrial Technology Research_Virtualization Health Check Service Enterprise Small(GCR)
+G-ILRI0003-00	339466	3	3	ILRI0003	6.5 days_Industrial Technology Research_Virtualization Health Check Service Enterprise Small(GCR)
+G-IXCO0003-00	396478	40	40	IXCO0003	5 Days_INNOLUX CORPORATION_One day TM Consultancy Services_(GCR)
+G-KGIS0009-00	378618	24	2	KGIS0009	KGI Securities_VMware one day T M Consultancy Services delivered by a VMware Senior Consultant
+G-LBOT0018-03	148713	4	4	LBOT0018	MS3
+G-LBOT0018-02	148713	5	5	LBOT0018	MS2
+G-LBOT0018-01	424694	11	11	LBOT0018	MS1
+G-LBOT0018-03	424694	38	32	LBOT0018	MS3
+G-LBOT0018-02	378618	8	8	LBOT0018	MS2
+G-LBOT0018-03	378618	12	0	LBOT0018	MS3
+G-LBOT0018-03	378136	4	4	LBOT0018	MS3
+G-LBOT0018-01	396478	8	8	LBOT0018	MS1
+G-LBOT0018-02	396478	20	20	LBOT0018	MS2
+G-LBOT0018-03	396478	132	40	LBOT0018	MS3
+G-LBOT0015-00	140186	8	8	LBOT0015	Land Bank Of Taiwan_VMware Network Virtualization Deployment Service(GCR)
+G-LBOT0015-00	417372	8	8	LBOT0015	Land Bank Of Taiwan_VMware Network Virtualization Deployment Service(GCR)
+G-LBOT0015-00	148713	24	24	LBOT0015	Land Bank Of Taiwan_VMware Network Virtualization Deployment Service(GCR)
+G-LBOT0015-00	379877	4	4	LBOT0015	Land Bank Of Taiwan_VMware Network Virtualization Deployment Service(GCR)
+G-LBOT0015-00	424694	2	2	LBOT0015	Land Bank Of Taiwan_VMware Network Virtualization Deployment Service(GCR)
+G-LBOT0015-00	378618	36	36	LBOT0015	Land Bank Of Taiwan_VMware Network Virtualization Deployment Service(GCR)
+G-LBOT0015-00	378136	12	12	LBOT0015	Land Bank Of Taiwan_VMware Network Virtualization Deployment Service(GCR)
+G-LBOT0015-00	398786	48	48	LBOT0015	Land Bank Of Taiwan_VMware Network Virtualization Deployment Service(GCR)
+G-LBOT0015-00	339466	18	18	LBOT0015	Land Bank Of Taiwan_VMware Network Virtualization Deployment Service(GCR)
+G-LBOT0016-00	387053	5	1	LBOT0016	Professional Services
+G-LBTL0012-00	378618	76	76	LBTL0012	Vmware Senior Consultant_20 Days TM(160 Hrs)
+G-LBTL0012-00	378136	84	82	LBTL0012	Vmware Senior Consultant_20 Days TM(160 Hrs)
+G-LBTL0015-01	417372	8	4	LBTL0015	MS1
+G-LBTL0015-01	424694	12	8	LBTL0015	MS1
+G-LBTL0015-01	424744	5	0	LBTL0015	MS1
+G-METI0024-00	140186	96	56	METI0024	PCR001_Completion of Engagement Manager 12 Days TM@ 27.63 CPD
+G-METI0024-00	148713	64	0	METI0024	PCR001_Completion of Consulting Architect 8 Days TM@ 16 CPD
+G-METI0024-00	154144	12	12	METI0024	PCR001_Completion of Consultant 9 Days TM@ 14.55 CPD
+G-METI0024-00	154144	12	0	METI0024	PCR001_Senior Consultant_1.5 days TM (12 HRS)
+G-METI0024-00	394544	47	47	METI0024	PCR001_Completion of Consulting Architect 8 Days TM@ 16 CPD
+G-METI0024-00	394544	80	66	METI0024	PCR001_Associate Consultant II_10 days TM (80 HRS)
+G-METI0024-00	394544	264	204	METI0024	PCR001_Completion of Consultant 9 Days TM@ 14.55 CPD
+G-METI0024-00	394544	269	269	METI0024	PCR001_Completion of Associate Consultant I 65 Days TM@ 4.75 CPD
+G-MICB0017-01	378136	84	8	MICB0017	MS1
+G-MICB0013-00	378136	22	22	MICB0013	Mega International Commercial Bank_Network Virtualization Planning Workshop_(GCR)
+G-MICB0013-00	396478	10	10	MICB0013	Mega International Commercial Bank_Network Virtualization Planning Workshop_(GCR)
+G-MICB0015-00	378136	40	40	MICB0015	MEGA INTERNATIONAL COMMERCIAL_one day TM Consultancy services(GCH)
+G-MLI 0004-01	396478	32	4	MLI 0004	MS1
+G-MLI 0004-01	424744	16	4	MLI 0004	MS1
+G-MLI 0004-01	339466	5	0	MLI 0004	MS1
+G-MLI 0001-00	148713	8	8	MLI 0001	5 days *Mercuries Life Insurance Co. Ltd_VMware one day T and M Consultancy Services delivered by a VMware Senior Consultant (TAIWAN)
+G-MLI 0001-00	424694	8	8	MLI 0001	5 days *Mercuries Life Insurance Co. Ltd_VMware one day T and M Consultancy Services delivered by a VMware Senior Consultant (TAIWAN)
+G-MLI 0001-00	378618	4	4	MLI 0001	5 days *Mercuries Life Insurance Co. Ltd_VMware one day T and M Consultancy Services delivered by a VMware Senior Consultant (TAIWAN)
+G-MLI 0001-00	398786	8	8	MLI 0001	5 days *Mercuries Life Insurance Co. Ltd_VMware one day T and M Consultancy Services delivered by a VMware Senior Consultant (TAIWAN)
+G-MLI 0001-00	424744	12	12	MLI 0001	5 days *Mercuries Life Insurance Co. Ltd_VMware one day T and M Consultancy Services delivered by a VMware Senior Consultant (TAIWAN)
+G-MIT40001-00	378618	40	24	MIT40001	MITAC INFORMATION TECHNOLOGY Corporation_one day T M Consultancy Services (Taiwan)
+G-MIT40002-00	378618	240	8	MIT40002	Mitac information Technology Corporation_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)
+G-MIT40002-00	424744	8	0	MIT40002	Mitac information Technology Corporation_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)
+G-MIT40002-00	339466	16	0	MIT40002	Mitac information Technology Corporation_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)
+G-MIIC0002-00	379877	16	16	MIIC0002	2_MITAC INTERNATIONAL CORP_One day T M Consultancy services_GCR
+G-MIIC0001-00	379877	32	32	MIIC0001	5 Days_MITAC INTERNATIONAL CORP_One day TM Consultancy services_(GCR)
+G-MIIC0001-00	378618	8	8	MIIC0001	5 Days_MITAC INTERNATIONAL CORP_One day TM Consultancy services_(GCR)
+G-MIIC0003-00	148713	52	52	MIIC0003	MITAC INTERNATIONAL CORP_Virtualization Health Check Service Enterprise Small_GCR
+G-MOXA0002-03	148713	4	4	MOXA0002	MS3
+G-MOXA0002-04	379877	14	12	MOXA0002	MS4
+G-MOXA0002-01	378618	4	4	MOXA0002	MS1
+G-MOXA0002-03	396478	16	16	MOXA0002	MS3
+G-MOXA0002-02	154144	8	8	MOXA0002	MS2
+G-MOXA0002-03	154144	34	34	MOXA0002	MS3
+G-MOXA0002-01	394544	8	8	MOXA0002	MS1
+G-MOXA0002-03	394544	30	30	MOXA0002	MS3
+G-MOXA0001-00	378618	8	8	MOXA0001	Moxa Inc_one day T M Consultancy services(GCR)
+G-MOXA0001-00	154144	20	20	MOXA0001	Moxa Inc_one day T M Consultancy services(GCR)
+G-MOXA0001-00	394544	8	8	MOXA0001	Moxa Inc_one day T M Consultancy services(GCR)
+G-MOXA0001-00	398786	4	4	MOXA0001	Moxa Inc_one day T M Consultancy services(GCR)
+G-MSIG0002-0M	140186	12	4	MSIG0002	MSM
+G-MSIG0002-0M	379877	40	13	MSIG0002	MSM
+G-NSHL0010-01	378136	8	8	NSHL0010	MS1
+G-NSHL0010-02	378136	28	28	NSHL0010	MS2
+G-NSHL0010-03	378136	86	74	NSHL0010	MS3
+G-NSHL0010-02	396478	8	8	NSHL0010	MS2
+G-NSHL0010-03	396478	115	103	NSHL0010	MS3
+G-NSHL0010-02	154144	4	4	NSHL0010	MS2
+G-NSHL0010-03	154144	14	14	NSHL0010	MS3
+G-NSHL0010-03	398786	22	13	NSHL0010	MS3
+G-NSHL0010-01	398786	24	24	NSHL0010	MS1
+G-NSHL0010-01	339466	4	4	NSHL0010	MS1
+G-NSHL0010-03	339466	12	12	NSHL0010	MS3
+G-NSHL0009-03	148713	8	8	NSHL0009	MS3
+G-NSHL0009-01	378136	5	5	NSHL0009	MS1
+G-NSHL0009-03	378136	8	8	NSHL0009	MS3
+G-NSHL0009-01	396478	20	20	NSHL0009	MS1
+G-NSHL0009-02	396478	38	38	NSHL0009	MS2
+G-NSHL0009-03	396478	56	64	NSHL0009	MS3
+G-NSHL0009-01	154144	16	16	NSHL0009	MS1
+G-NSHL0009-03	398786	56	24	NSHL0009	MS3
+G-NSHL0009-01	339466	3	3	NSHL0009	MS1
+G-NCFH0007-01	140186	3	3	NCFH0007	MS1
+G-NCFH0007-03	140186	16	16	NCFH0007	MS3
+G-NCFH0007-01	148713	10	10	NCFH0007	MS1
+G-NCFH0007-03	148713	14	14	NCFH0007	MS3
+G-NCFH0007-01	379877	8	8	NCFH0007	MS1
+G-NCFH0007-02	379877	24	24	NCFH0007	MS2
+G-NCFH0007-04	379877	42	42	NCFH0007	MS4
+G-NCFH0007-03	379877	186	186	NCFH0007	MS3
+G-NCFH0007-02	378618	8	8	NCFH0007	MS2
+G-NCFH0007-03	378618	60	60	NCFH0007	MS3
+G-NCFH0007-03	378136	4	4	NCFH0007	MS3
+G-NCFH0007-03	154144	4	4	NCFH0007	MS3
+G-NCFH0007-02	394544	8	8	NCFH0007	MS2
+G-NCFH0007-01	394544	16	16	NCFH0007	MS1
+G-NCFH0007-03	398786	4	4	NCFH0007	MS3
+G-NCFH0007-01	339466	5	5	NCFH0007	MS1
+G-NCFH0008-00	378618	40	8	NCFH0008	NATIONAL CENTER FOR HIGH-PERFO_one day T&M Consultancy services(GCR)
+G-NCSI0011-00	140186	64	55	NCSI0011	PCR001/Vmware Engagement Manager_8 daysTM(64 Hours)
+G-NCSI0011-00	148713	5	5	NCSI0011	PCR001/Vmware Consulting Architect_32 days TM(256 Hours)
+G-NCSI0011-00	148713	101	101	NCSI0011	PCR001/Vmware Consultant _20 days TM(160 Hours)
+G-NCSI0011-00	148713	251	251	NCSI0011	PCR001/ Removal of Vmware Senior Consultant_69DaysTM(552 Hours)
+G-NCSI0011-00	396478	8	8	NCSI0011	PCR001/Vmware Associate Consultant II_10 days TM(80 Hours)
+G-NCSI0011-00	394544	48	48	NCSI0011	PCR001/Vmware Associate Consultant I_30 days TM(240 Hours)
+G-NCSI0011-00	394544	59	5	NCSI0011	PCR001/Vmware Consultant _20 days TM(160 Hours)
+G-NCSI0011-00	394544	72	72	NCSI0011	PCR001/Vmware Associate Consultant II_10 days TM(80 Hours)
+G-NCSI0011-00	394544	192	192	NCSI0011	PCR001/ Removal of Vmware Senior Consultant_69DaysTM(552 Hours)
+G-NCSI0017-02	140186	5	5	NCSI0017	MS2
+G-NCSI0017-01	140186	9	9	NCSI0017	MS1
+G-NCSI0017-03	140186	12	12	NCSI0017	MS3
+G-NCSI0017-02	148713	4	4	NCSI0017	MS2
+G-NCSI0017-03	148713	12	12	NCSI0017	MS3
+G-NCSI0017-02	379877	16	16	NCSI0017	MS2
+G-NCSI0017-03	378618	72	72	NCSI0017	MS3
+G-NCSI0017-03	378136	32	32	NCSI0017	MS3
+G-NCSI0017-01	396478	16	16	NCSI0017	MS1
+G-NCSI0017-02	396478	16	16	NCSI0017	MS2
+G-NCSI0017-03	396478	38	38	NCSI0017	MS3
+G-NCSI0017-02	394544	24	24	NCSI0017	MS2
+G-NCSI0017-01	394544	38	38	NCSI0017	MS1
+G-NCSI0017-04	394544	64	0	NCSI0017	MS4
+G-NCSI0017-03	394544	272	248	NCSI0017	MS3
+G-NCSI0013-00	387053	4	0	NCSI0013	Assigned Primary TSC
+G-NCSI0013-00	394722	0	0	NCSI0013	Professional Services
+G-NPAM0006-00	148713	24	4	NPAM0006	NATIONAL POLICE AGENCY MINISTR_One day TM Consultancy Services(GCR)
+G-NPAM0006-00	398786	8	4	NPAM0006	NATIONAL POLICE AGENCY MINISTR_One day TM Consultancy Services(GCR)
+G-NSBR0004-00	148713	12	12	NSBR0004	Vmware Senior Consultant_24 daysTM(192 Hrs)
+G-NSBR0004-00	378618	180	172	NSBR0004	Vmware Senior Consultant_24 daysTM(192 Hrs)
+G-NCOB0006-02	140186	12	12	NCOB0006	MS2
+G-NCOB0006-01	140186	18	18	NCOB0006	MS1
+G-NCOB0006-03	140186	48	48	NCOB0006	MS3
+G-NCOB0006-01	148713	10	10	NCOB0006	MS1
+G-NCOB0006-03	148713	10	10	NCOB0006	MS3
+G-NCOB0006-02	148713	15	15	NCOB0006	MS2
+G-NCOB0006-03	379877	16	16	NCOB0006	MS3
+G-NCOB0006-03	378618	8	8	NCOB0006	MS3
+G-NCOB0006-03	378136	16	4	NCOB0006	MS3
+G-NCOB0006-03	154144	48	48	NCOB0006	MS3
+G-NCOB0006-03	394544	25	25	NCOB0006	MS3
+G-NCOB0006-03	398786	5	5	NCOB0006	MS3
+G-NCOB0006-02	398786	8	8	NCOB0006	MS2
+G-NCOB0006-03	339466	8	8	NCOB0006	MS3
+G-NCOB0006-02	339466	16	16	NCOB0006	MS2
+G-NCOB0006-01	339466	24	24	NCOB0006	MS1
+G-PRIC0006-02	417372	4	4	PRIC0006	MS2
+G-PRIC0006-01	417372	12	12	PRIC0006	MS1
+G-PRIC0006-03	417372	12	12	PRIC0006	MS3
+G-PRIC0006-01	148713	4	4	PRIC0006	MS1
+G-PRIC0006-03	148713	4	4	PRIC0006	MS3
+G-PRIC0006-02	148713	6	6	PRIC0006	MS2
+G-PRIC0006-03	379877	8	4	PRIC0006	MS3
+G-PRIC0006-02	378136	8	8	PRIC0006	MS2
+G-PRIC0006-03	378136	116	82	PRIC0006	MS3
+G-PRIC0006-01	394544	26	26	PRIC0006	MS1
+G-PRIC0006-02	394544	34	34	PRIC0006	MS2
+G-PRIC0006-03	394544	212	82	PRIC0006	MS3
+G-PRIC0006-01	339466	8	8	PRIC0006	MS1
+G-PRIC0004-00	148713	8	8	PRIC0004	President Information Corp_One day T M Consultancy Services (GChina)
+G-PRIC0004-00	378136	8	8	PRIC0004	President Information Corp_One day T M Consultancy Services (GChina)
+G-PRIC0004-00	394544	20	20	PRIC0004	President Information Corp_One day T M Consultancy Services (GChina)
+G-PRIC0004-00	398786	4	4	PRIC0004	President Information Corp_One day T M Consultancy Services (GChina)
+G-PRIC0005-03	148713	11	11	PRIC0005	MS3
+G-PRIC0005-02	378136	4	4	PRIC0005	MS2
+G-PRIC0005-03	378136	16	16	PRIC0005	MS3
+G-PRIC0005-01	378136	17	17	PRIC0005	MS1
+G-PRIC0005-03	394544	84	84	PRIC0005	MS3
+G-PRIC0005-01	398786	6	6	PRIC0005	MS1
+G-PRIC0005-02	398786	13	13	PRIC0005	MS2
+G-PRIC0005-04	398786	14	0	PRIC0005	MS4
+G-PRIC0005-03	398786	16	16	PRIC0005	MS3
+G-PRIC0005-03	339466	4	4	PRIC0005	MS3
+G-RSMI0002-00	148713	80	80	RSMI0002	Vmware Cosnulting Architect_10days TM(80hrs)@22.20
+G-RSMI0002-00	378618	8	8	RSMI0002	Vmware Senior Consultant_4days TM(32hours)@21.50)
+G-SNEX0002-02	140186	4	4	SNEX0002	MS2
+G-SNEX0002-01	140186	6	6	SNEX0002	MS1
+G-SNEX0002-03	140186	21	21	SNEX0002	MS3
+G-SNEX0002-03	148713	20	20	SNEX0002	MS3
+G-SNEX0002-02	378618	4	4	SNEX0002	MS2
+G-SNEX0002-01	378618	8	8	SNEX0002	MS1
+G-SNEX0002-03	378618	135	101	SNEX0002	MS3
+G-SNEX0002-02	378136	12	12	SNEX0002	MS2
+G-SNEX0002-01	378136	16	16	SNEX0002	MS1
+G-SNEX0002-03	378136	59	59	SNEX0002	MS3
+G-SNEX0002-01	398786	8	8	SNEX0002	MS1
+G-SNEX0002-02	398786	8	8	SNEX0002	MS2
+G-SNEX0002-03	398786	16	16	SNEX0002	MS3
+G-SNEX0001-00	378618	20	20	SNEX0001	5 days_SYNNEX TECHNOLOGY INTERNATIONAL CORPORATION_one day TM Consultancy Services(GCR)
+G-SNEX0001-00	378136	16	16	SNEX0001	5 days_SYNNEX TECHNOLOGY INTERNATIONAL CORPORATION_one day TM Consultancy Services(GCR)
+G-SNEX0001-00	398786	4	4	SNEX0001	5 days_SYNNEX TECHNOLOGY INTERNATIONAL CORPORATION_one day TM Consultancy Services(GCR)
+G-SYSI0001-00	390655	0	80	SYSI0001	Agile Product Manager - Open Billable Task
+G-SYSI0001-00	390655	160	24	SYSI0001	21691 - Agile Product Manager (Product Manager) 
+G-TCG 0005-00	154144	8	8	TCG 0005	4 days_Taipei City Government_one day TM Consultancy Services(GCR)
+G-TCG 0005-00	398786	24	24	TCG 0005	4 days_Taipei City Government_one day TM Consultancy Services(GCR)
+G-TCG 0004-00	140186	3	3	TCG 0004	VMWare Network Virtualization Planning Workshop
+G-TCG 0004-00	378618	29	25	TCG 0004	VMWare Network Virtualization Planning Workshop
+G-DTCG0004-00	140186	4	4	DTCG0004	6 days_Taipei City Government_Vmware Virtualization Health Check Service Enterprise Small(GCR)
+G-DTCG0004-00	154144	44	44	DTCG0004	6 days_Taipei City Government_Vmware Virtualization Health Check Service Enterprise Small(GCR)
+G-TAIT0003-01	417372	17	15	TAIT0003	MS1
+G-TAIT0003-01	148713	32	32	TAIT0003	MS1
+G-TAIT0003-01	424744	16	12	TAIT0003	MS1
+G-TAIT0001-01	140186	8	8	TAIT0001	MS1
+G-TAIT0001-03	140186	36	36	TAIT0001	MS3
+G-TAIT0001-03	417372	4	4	TAIT0001	MS3
+G-TAIT0001-03	148713	6	6	TAIT0001	MS3
+G-TAIT0001-01	379877	14	14	TAIT0001	MS1
+G-TAIT0001-02	154144	18	18	TAIT0001	MS2
+G-TAIT0001-01	154144	26	26	TAIT0001	MS1
+G-TAIT0001-04	154144	40	0	TAIT0001	MS4
+G-TAIT0001-03	154144	625	621	TAIT0001	MS3
+G-TAIT0001-02	339466	16	16	TAIT0001	MS2
+G-TAIT0001-03	339466	26	26	TAIT0001	MS3
+G-VGHT0004-00	398786	16	8	VGHT0004	Taipei Veterans General Hospital_one day Consultancy TM(GCR)
+G-TINB0016-00	140186	16	16	TINB0016	Vmware Engagement Manager_2 daysTM (16Hrs)
+G-TINB0016-00	148713	16	5	TINB0016	Vmware Consulting Architect_2 daysTM (16Hrs)
+G-TINB0016-00	398786	128	26	TINB0016	Vmware Consultant_16 daysTM (128Hrs)
+G-TINB0011-02	140186	3	3	TINB0011	MS2
+G-TINB0011-01	140186	4	4	TINB0011	MS1
+G-TINB0011-03	140186	11	11	TINB0011	MS3
+G-TINB0011-03	148713	8	8	TINB0011	MS3
+G-TINB0011-03	379877	64	64	TINB0011	MS3
+G-TINB0011-02	154144	5	5	TINB0011	MS2
+G-TINB0011-01	154144	5	5	TINB0011	MS1
+G-TINB0011-03	154144	10	10	TINB0011	MS3
+G-TINB0011-02	398786	14	14	TINB0011	MS2
+G-TINB0011-01	398786	16	16	TINB0011	MS1
+G-TINB0011-04	398786	32	4	TINB0011	MS4
+G-TINB0011-03	398786	80	80	TINB0011	MS3
+G-TACB0005-01	396478	24	24	TACB0005	MS1
+G-TACB0005-02	396478	28	28	TACB0005	MS2
+G-TACB0005-03	396478	168	12	TACB0005	MS3
+G-THSR0003-00	148713	23	23	THSR0003	TAIWAN HIGH SPEED RAIL CO_VMware Network Virtualization Deployment and Application Security Adoption Service(GCR)
+G-THSR0003-00	378136	23	23	THSR0003	TAIWAN HIGH SPEED RAIL CO_VMware Network Virtualization Deployment and Application Security Adoption Service(GCR)
+G-THSR0003-00	398786	218	218	THSR0003	TAIWAN HIGH SPEED RAIL CO_VMware Network Virtualization Deployment and Application Security Adoption Service(GCR)
+G-THSR0005-00	378136	104	8	THSR0005	TAIWAN HIGH SPEED RAIL CO_VMware Virtualization Health Check Service Enterprise Medium(GCR)
+G-THSR0001-01	140186	12	12	THSR0001	MS1
+G-THSR0001-03	417372	15	15	THSR0001	MS3
+G-THSR0001-02	148713	28	28	THSR0001	MS2
+G-THSR0001-01	148713	35	35	THSR0001	MS1
+G-THSR0001-03	148713	146	146	THSR0001	MS3
+G-THSR0001-02	378618	8	8	THSR0001	MS2
+G-THSR0001-03	378618	8	8	THSR0001	MS3
+G-THSR0001-04	378136	2	2	THSR0001	MS4
+G-THSR0001-01	378136	4	4	THSR0001	MS1
+G-THSR0001-02	378136	16	16	THSR0001	MS2
+G-THSR0001-03	378136	45	45	THSR0001	MS3
+G-THSR0001-03	394544	8	8	THSR0001	MS3
+G-THSR0001-02	398786	15	15	THSR0001	MS2
+G-THSR0001-04	398786	16	4	THSR0001	MS4
+G-THSR0001-01	398786	32	32	THSR0001	MS1
+G-THSR0001-03	398786	270	262	THSR0001	MS3
+G-THSR0001-03	408129	131	139	THSR0001	MS3
+G-THSR0001-03	379565	58	58	THSR0001	MS3
+G-THSR0001-03	410460	52	52	THSR0001	MS3
+G-THSR0001-03	82448	11	11	THSR0001	MS3
+G-THSR0001-03	385743	37	37	THSR0001	MS3
+G-THSR0001-02	411689	15	15	THSR0001	MS2
+G-THSR0001-03	411689	31	31	THSR0001	MS3
+G-TAMC0008-03	379877	72	32	TAMC0008	MS3
+G-TAMC0008-03	396478	44	44	TAMC0008	MS3
+G-TAMC0008-01	394544	16	16	TAMC0008	MS1
+G-TAMC0008-02	394544	19	19	TAMC0008	MS2
+G-TAMC0008-03	394544	19	19	TAMC0008	MS3
+G-TAMC0008-01	339466	3	3	TAMC0008	MS1
+G-TPOW0009-00	148713	26	26	TPOW0009	5 days_TAIWAN POWER COMPAN_One day TM Consultancy Services(GCR)
+G-TPOW0009-00	379877	14	14	TPOW0009	5 days_TAIWAN POWER COMPAN_One day TM Consultancy Services(GCR)
+G-TPOW0009-00	378136	0	0	TPOW0009	5 days_TAIWAN POWER COMPAN_One day TM Consultancy Services(GCR)
+G-TPOW0004-00	140186	2	2	TPOW0004	Engagement Manager
+G-TPOW0004-00	148713	37	37	TPOW0004	Senior Consultant
+G-TPOW0004-00	379877	14	14	TPOW0004	Engagement Manager
+G-TPOW0004-00	379877	25	25	TPOW0004	Senior Consultant
+G-TPOW0004-00	379877	111	111	TPOW0004	Consultant
+G-TPOW0012-00	379877	40	28	TPOW0012	TAIWAN POWER COMPANY_One day TM Consultancy Services(GCR)
+G-TPOW0010-03	417372	26	26	TPOW0010	MS3
+G-TPOW0010-02	148713	12	12	TPOW0010	MS2
+G-TPOW0010-03	148713	68	52	TPOW0010	MS3
+G-TPOW0010-02	379877	40	40	TPOW0010	MS2
+G-TPOW0010-01	379877	63	63	TPOW0010	MS1
+G-TPOW0010-03	379877	353	273	TPOW0010	MS3
+G-TPOW0010-03	424694	16	16	TPOW0010	MS3
+G-TPOW0010-02	378618	8	8	TPOW0010	MS2
+G-TPOW0010-03	378136	7	7	TPOW0010	MS3
+G-TPOW0010-01	396478	8	8	TPOW0010	MS1
+G-TPOW0010-02	396478	10	10	TPOW0010	MS2
+G-TPOW0010-03	396478	60	60	TPOW0010	MS3
+G-TPOW0010-02	394544	8	8	TPOW0010	MS2
+G-TPOW0010-03	394544	8	8	TPOW0010	MS3
+G-TPOW0010-01	339466	8	8	TPOW0010	MS1
+G-TPOW0010-03	339466	8	8	TPOW0010	MS3
+G-TAIL0003-00	379877	8	8	TAIL0003	One day TM Consultancy Services
+G-TAIL0003-00	378136	24	4	TAIL0003	One day TM Consultancy Services
+G-TPOW0008-00	148713	32	32	TPOW0008	TaiwanPowerCompany_VMware one day T M Consultancy Services (Taiwan)
+G-TCC 0002-00	148713	8	6	TCC 0002	VMware one day T M Consultancy Services delivered by a VMware Senior Consultant
+G-TCC 0002-00	379877	32	10	TCC 0002	VMware one day T M Consultancy Services delivered by a VMware Senior Consultant
+G-TCC 0001-00	379877	24	24	TCC 0001	TCC Information Systems Corp_VMware one day T M Consultancy Services delivered by a VMware Senior Consultant (TAIWAN)
+G-TLNC0002-00	396478	40	40	TLNC0002	TRANSGLOBE LIFE INSURANCE INC_VMware one day T M Consultancy Services(GCR)
+G-TSMT0012-00	378618	120	44	TSMT0012	TSMC_VMware Network Virtualization Deployment Service(GCR)
+G-UNTN0001-00	148713	2	1	UNTN0001	UNIMICRON TECHNOLOGY CORPORATION_VMware Horizon Desktop Health Check_(GCR)
+G-UNTN0001-00	379877	70	32	UNTN0001	UNIMICRON TECHNOLOGY CORPORATION_VMware Horizon Desktop Health Check_(GCR)
+G-WTCP0008-00	148713	7	7	WTCP0008	Wistron Corporation_VMware one day T M Consultancy Services(GCR)
+G-WTCP0008-00	154144	4	4	WTCP0008	Wistron Corporation_VMware one day T M Consultancy Services(GCR)
+G-WTCP0008-00	394544	29	29	WTCP0008	Wistron Corporation_VMware one day T M Consultancy Services(GCR)
+G-YFHC0011-00	140186	9	9	YFHC0011	Blended project manager_1.1 days (8.8 hours)
+G-YFHC0011-00	417372	16	6	YFHC0011	VMware Consulting Architect_2 days(16 hours)
+G-YFHC0011-00	378618	0	0	YFHC0011	Deployment Task
+G-YFHC0011-00	378618	0	0	YFHC0011	NSX Deployment
+G-YFHC0011-00	378618	92	92	YFHC0011	VMware Consultant_20 days (160 hours)
+G-YFHC0011-00	378136	42	42	YFHC0011	VMware Consultant_20 days (160 hours)
+G-YFHC0011-00	154144	10	10	YFHC0011	VMware Consultant_20 days (160 hours)
+G-YFHC0011-00	398786	16	16	YFHC0011	VMware Consultant_20 days (160 hours)
+G-YFHC0010-00	140186	10	8	YFHC0010	Blended Project Manager_1.25 days TM(10 hrs)
+G-YFHC0010-00	378136	12	12	YFHC0010	VMware Consultant _7.5 days TM(60 hrs)
+G-YFHC0010-00	154144	20	0	YFHC0010	VMware Consulting Architect _2.5 days TM(20 hrs)
+G-YFHC0010-00	154144	48	48	YFHC0010	VMware Consultant _7.5 days TM(60 hrs)
+G-YFHC0010-00	154144	120	120	YFHC0010	VMware Senior Consultant_15 days TM(120 hrs)
+G-YFHC0022-01	378136	12	8	YFHC0022	MS1
+G-YFHC0012-03	140186	4	4	YFHC0012	MS3
+G-YFHC0012-01	140186	8	8	YFHC0012	MS1
+G-YFHC0012-03	378136	8	8	YFHC0012	MS3
+G-YFHC0012-02	396478	12	12	YFHC0012	MS2
+G-YFHC0012-04	396478	19	19	YFHC0012	MS4
+G-YFHC0012-01	396478	29	29	YFHC0012	MS1
+G-YFHC0012-03	396478	130	130	YFHC0012	MS3
+G-YFHC0017-01	398786	21	21	YFHC0017	MS1
+G-YFHC0017-02	398786	28	8	YFHC0017	MS2
+G-YFHC0016-00	378136	16	16	YFHC0016	YUANTA FINANCIAL HOLDING CO.Ltd_one day T M Consultancy services(GCR)
+G-YFHC0016-00	398786	24	24	YFHC0016	YUANTA FINANCIAL HOLDING CO.Ltd_one day T M Consultancy services(GCR)
+\.
+
+
+--
+-- Data for Name: Member; Type: TABLE DATA; Schema: public; Owner: sammy
+--
+
+COPY public."Member" (member_id, first_name, last_name, role, employee) FROM stdin;
+154144	Ron	Tsai	Consultant	t
+378136	Kosten	Yang	Consultant	t
+379877	Bosco	Lin	Consultant	t
+339466	Natalie	Li	Project Manager	t
+140186	Mars	Wang	Manager	t
+148713	Sean	Tung	Architect	t
+378618	Jack	Chien	Consultant	t
+396478	Mike	Chiu	Consultant	t
+394544	Stone	Wang	Consultant	t
+398786	Tina	Huang	Consultant	t
+424744	Jason	Cheng	Project Manager	t
+417372	Brandon	Chen	Architect	t
+329252	Josh	Gellatly	Architect	t
+424694	Harrison	Wang	Consultant	t
+395322	Jeffrey	Wang	Outside of Taiwan	t
+390655	Min Kwang 	Ng	Outside of Taiwan	t
+387053	Pengfei	Li	Outside of Taiwan	t
+394722	Rodney	Jackson	Project Manager	t
+408129	Priyanka	NT	Outside of Taiwan	t
+379565	Orlando	Viera	Outside of Taiwan	t
+410460	Marina	Savyovska	Outside of Taiwan	t
+82448	Petko	Meshov	Outside of Taiwan	t
+385743	Triveni	Mane	Outside of Taiwan	t
+411689	Martin	Georgiev	Outside of Taiwan	t
+\.
+
+
+--
+-- Data for Name: Phase; Type: TABLE DATA; Schema: public; Owner: sammy
+--
+
+COPY public."Phase" (phase_id, engagement_id, group_id, name, step, expect_hours, actual_hours) FROM stdin;
+EL170001-00	EL170001	G-EL170001-00	7-ELEVEN_VMware one day T&M Consultancy services _(GCR)	0	40	12
+ASE 0006-00	ASE 0006	G-ASE 0006-00	Advanced Semiconductor Enginee_One day TM Consultancy Services (GCR)	0	16	4
+ASE 0005-00	ASE 0005	G-ASE 0005-00	ADVANCED SEMICONDUCTOR ENGINEERING INC_ASE_8 Days T&M(GCR)	0	67	67
+ASE 0007-00	ASE 0007	G-ASE 0007-00	ADVANCED SEMICONDUCTOR ENGINEERING INC_Virtualization Health Check Service Enterprise Small(GCR)	0	52	2
+AFCH0001-01	AFCH0001	G-AFCH0001-01	MS1	1	48	48
+AFCH0001-02	AFCH0001	G-AFCH0001-02	MS2	2	42	42
+AFCH0001-03	AFCH0001	G-AFCH0001-03	MS3	3	379	289
+AFCH0001-04	AFCH0001	G-AFCH0001-04	MS4	4	52	0
+ATI40001-00	ATI40001	G-ATI40001-00	ALLIANZ TAIWAN LIFE INSURANCE_VMware Virtualization Health Check Service Enterprise Medium_(GCR)	0	104	0
+acmh0001-01	acmh0001	G-acmh0001-01	MS1	1	51	51
+acmh0001-02	acmh0001	G-acmh0001-02	MS2	2	51	51
+acmh0001-03	acmh0001	G-acmh0001-03	MS3	3	379	293
+acmh0001-04	acmh0001	G-acmh0001-04	MS4	4	40	0
+ASE 0004-00	ASE 0004	G-ASE 0004-00	ASE_one day TM Consultancy Services(GCR)	0	40	0
+BOSP0006-00	BOSP0006	G-BOSP0006-00	BANK SINOPAC_One day TM Consultancy Services(GCR)	0	24	24
+BOSP0007-01	BOSP0007	G-BOSP0007-01	MS1	1	16	12
+BOSP0007-02	BOSP0007	G-BOSP0007-02	MS2	2	16	0
+BOSP0007-03	BOSP0007	G-BOSP0007-03	MS3	3	112	0
+BOSP0007-04	BOSP0007	G-BOSP0007-04	MS4	4	16	0
+BCOM0002-00	BCOM0002	G-BCOM0002-00	BOOKS.COM CO., LTD._VMware one day T&M Consultancy Services delivered by a VMware Senior Consultant_GCR	0	40	0
+BCOM0003-00	BCOM0003	G-BCOM0003-00	BOOKS.COM CO., LTD._VMware Virtualization Health Check Service Enterprise Medium 10 Days_GCR	0	80	0
+CATN0004-00	CATN0004	G-CATN0004-00	CATHAY LIFE INSURANCE CO. LTD_One day TM consultancy(GCR)	0	40	4
+CBRP0001-01	CBRP0001	G-CBRP0001-01	MS1	1	20	20
+CBRP0001-02	CBRP0001	G-CBRP0001-02	MS2	2	20	0
+CBRP0001-03	CBRP0001	G-CBRP0001-03	MS3	3	141	0
+CBRP0001-04	CBRP0001	G-CBRP0001-04	MS4	4	21	0
+CHCF0001-00	CHCF0001	G-CHCF0001-00	Chailease Finance Co. Ltd_One day TM Consultancy Services_(GCR) 	0	40	40
+CHCF0002-00	CHCF0002	G-CHCF0002-00	Chailease Finance Co. Ltd_VMware Horizon Desktop Health Check_(GCR) 	0	72	54
+CYII0010-00	CYII0010	G-CYII0010-00	Chung YO Internet Information Co Ltd_Residency_24 Days TM (GCR)	0	221	161
+CYII0009-00	CYII0009	G-CYII0009-00	Chung YO Internet Information Co. Ltd_VMware one day T and M Consultancy Services delivered by a VMware Senior Consultant (Taiwan)	0	40	40
+CPCL0023-01	CPCL0023	G-CPCL0023-01	MS1	1	69	69
+CPCL0023-02	CPCL0023	G-CPCL0023-02	MS2	2	63	63
+CPCL0023-03	CPCL0023	G-CPCL0023-03	MS3	3	517	513
+CPCL0023-04	CPCL0023	G-CPCL0023-04	MS4	4	40	0
+CPCL0022-00	CPCL0022	G-CPCL0022-00	CHUNGHWA POST CO., LTD_One day TM Consultancy Services_(GCR)	0	40	40
+CHU 0010-00	CHU 0010	G-CHU 0010-00	Chunghwa Telecom Co Ltd_52 days TM (GCR)	0	416	376
+CHWT0001-00	CHWT0001	G-CHWT0001-00	CHUNGHWA TELECOM CO., LTD_VMware Network Virtualization Deployment Service(GCR)	0	20	0
+CTBD0007-00	CTBD0007	G-CTBD0007-00	Ctbc Financial Holding Co. Ltd_Residency_20 days TM (GCR)	0	168	168
+CTBD0010-00	CTBD0010	G-CTBD0010-00	Ctbc Financial Holding Co. Ltd_S360 Accelerator (GCR)	0	0	0
+CTBD0015-01	CTBD0015	G-CTBD0015-01	MS1	1	40	8
+CTBD0015-02	CTBD0015	G-CTBD0015-02	MS2	2	39	0
+CTBD0015-03	CTBD0015	G-CTBD0015-03	MS3	3	276	0
+CTBD0015-04	CTBD0015	G-CTBD0015-04	MS4	4	40	0
+CTBD0014-01	CTBD0014	G-CTBD0014-01	MS1	1	33	33
+CTBD0014-02	CTBD0014	G-CTBD0014-02	MS2	2	41	41
+CTBD0014-03	CTBD0014	G-CTBD0014-03	MS3	3	276	276
+CTBD0014-04	CTBD0014	G-CTBD0014-04	MS4	4	36	32
+DLEI0015-00	DLEI0015	G-DLEI0015-00	Delta Electronics Inc_DELATA 21 days TnM_Jan 2021_21 days TM(GCR)	0	168	122
+DOE10001-00	DOE10001	G-DOE10001-00	DEPARTMENT OF EDUCATION TAIPEI_VMware Virtualization Health Check Service Enterprise Small(GCR)	0	52	0
+DTCG0005-01	DTCG0005	G-DTCG0005-01	MS1	1	30	30
+DTCG0005-02	DTCG0005	G-DTCG0005-02	MS2	2	28	28
+DTCG0005-03	DTCG0005	G-DTCG0005-03	MS3	3	200	22
+DTCG0005-04	DTCG0005	G-DTCG0005-04	MS4	4	28	0
+DTCG0006-00	DTCG0006	G-DTCG0006-00	Department Of Information Technology_one day TM Consultany(GCR)	0	40	0
+DGOH0003-00	DGOH0003	G-DGOH0003-00	DIRECTORATE GENERAL OF HIGHWAY_one day T&M Consultancy Services(Taiwan)	0	24	0
+DGOH0002-00	DGOH0002	G-DGOH0002-00	DIRECTORATE GENERAL OF HIGHWAY_Virtualization Health Check Service Enterprise Medium(Taiwan)	0	80	0
+SUNB0015-01	SUNB0015	G-SUNB0015-01	MS1	1	116	116
+SUNB0015-02	SUNB0015	G-SUNB0015-02	MS2	2	126	30
+SUNB0015-03	SUNB0015	G-SUNB0015-03	MS3	3	892	0
+SUNB0015-04	SUNB0015	G-SUNB0015-04	MS4	4	126	0
+SUNB0011-01	SUNB0011	G-SUNB0011-01	MS1	1	24	24
+SUNB0011-02	SUNB0011	G-SUNB0011-02	MS2	2	24	24
+SUNB0011-03	SUNB0011	G-SUNB0011-03	MS3	3	164	164
+SUNB0011-04	SUNB0011	G-SUNB0011-04	MS4	4	23	23
+SUNB0014-01	SUNB0014	G-SUNB0014-01	MS1	1	45	17
+SUNB0014-02	SUNB0014	G-SUNB0014-02	MS2	2	45	0
+SUNB0014-03	SUNB0014	G-SUNB0014-03	MS3	3	318	0
+SUNB0014-04	SUNB0014	G-SUNB0014-04	MS4	4	46	0
+SUNB0013-01	SUNB0013	G-SUNB0013-01	MS1	1	24	24
+SUNB0013-02	SUNB0013	G-SUNB0013-02	MS2	2	28	28
+SUNB0013-03	SUNB0013	G-SUNB0013-03	MS3	3	165	165
+SUNB0013-04	SUNB0013	G-SUNB0013-04	MS4	4	18	18
+SUNB0008-00	SUNB0008	G-SUNB0008-00	ESUN BANK_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)	0	240	240
+SUNB0009-00	SUNB0009	G-SUNB0009-00	ESUN BANK_VMware vRealize Automation Integration(Taiwan)	0	24	24
+FEIL0001-00	FEIL0001	G-FEIL0001-00	FAR EASTERN INTERNATIONAL BANK_one day T&M Consultancy services(GCR)	0	40	0
+FARE0011-01	FARE0011	G-FARE0011-01	MS1	1	17	17
+FARE0011-02	FARE0011	G-FARE0011-02	MS2	2	17	17
+FARE0011-03	FARE0011	G-FARE0011-03	MS3	3	121	121
+FARE0011-04	FARE0011	G-FARE0011-04	MS4	4	13	7
+FARE0013-00	FARE0013	G-FARE0013-00	Far Eastone Telecommunications Co., Ltd._TANZU MAPBU_FET_18 days TM(GCR)	0	4160	40
+FARE0009-01	FARE0009	G-FARE0009-01	MS1	1	64	64
+FARE0009-02	FARE0009	G-FARE0009-02	MS2	2	64	64
+FARE0009-03	FARE0009	G-FARE0009-03	MS3	3	446	446
+FARE0009-04	FARE0009	G-FARE0009-04	MS4	4	64	38
+FARE0012-01	FARE0012	G-FARE0012-01	MS1	1	31	0
+FARE0012-02	FARE0012	G-FARE0012-02	MS2	2	31	0
+FARE0012-03	FARE0012	G-FARE0012-03	MS3	3	218	0
+FARE0012-04	FARE0012	G-FARE0012-04	MS4	4	31	0
+FIIS0002-01	FIIS0002	G-FIIS0002-01	MS1	1	38	38
+FIIS0002-02	FIIS0002	G-FIIS0002-02	MS2	2	30	14
+FIIS0002-03	FIIS0002	G-FIIS0002-03	MS3	3	198	28
+FIIS0002-04	FIIS0002	G-FIIS0002-04	MS4	4	28	0
+FIIS0001-00	FIIS0001	G-FIIS0001-00	Financial Information Service_One Day TM Consultancy Services_(GCH)	0	40	40
+FCBC0002-00	FCBC0002	G-FCBC0002-00	FIRST COMMERCIAL BANK CO., LTD_MAPBU_FCB_60 Days TM(GCR)	0	1420	480
+FCBC0001-01	FCBC0001	G-FCBC0001-01	MS1	1	20	20
+FCBC0001-02	FCBC0001	G-FCBC0001-02	MS2	2	20	20
+FCBC0001-03	FCBC0001	G-FCBC0001-03	MS3	3	166	166
+FCBC0001-04	FCBC0001	G-FCBC0001-04	MS4	4	12	8
+FCBC0003-01	FCBC0003	G-FCBC0003-01	MS1	1	1763	66
+FCBC0003-02	FCBC0003	G-FCBC0003-02	MS2	2	637	0
+FCBC0003-03	FCBC0003	G-FCBC0003-03	MS3	3	3281	0
+FCBC0003-04	FCBC0003	G-FCBC0003-04	MS4	4	637	0
+FCI 0007-00	FCI 0007	G-FCI 0007-00	Fiscal Information Agency Ministry Of Finance_VMware Network Virtualization Deployment and Application Security Adoption Service(GCR)	0	264	264
+FCI 0006-00	FCI 0006	G-FCI 0006-00	Fiscal Information Agency_One day TM Consultancy Service_(GCR)	0	24	4
+FUBN0012-01	FUBN0012	G-FUBN0012-01	MS1	1	23	0
+FUBN0012-02	FUBN0012	G-FUBN0012-02	MS2	2	23	0
+FUBN0012-03	FUBN0012	G-FUBN0012-03	MS3	3	158	0
+FUBN0012-04	FUBN0012	G-FUBN0012-04	MS4	4	23	0
+FLIC0016-01	FLIC0016	G-FLIC0016-01	MS1	1	23	0
+FLIC0016-02	FLIC0016	G-FLIC0016-02	MS2	2	22	0
+FLIC0016-03	FLIC0016	G-FLIC0016-03	MS3	3	160	0
+FLIC0016-04	FLIC0016	G-FLIC0016-04	MS4	4	22	0
+FUBO0001-01	FUBO0001	G-FUBO0001-01	MS1	1	19	0
+FUBO0001-02	FUBO0001	G-FUBO0001-02	MS2	2	19	0
+FUBO0001-03	FUBO0001	G-FUBO0001-03	MS3	3	135	0
+FUBO0001-04	FUBO0001	G-FUBO0001-04	MS4	4	20	0
+HSCL0001-00	HSCL0001	G-HSCL0001-00	HAN SHAN CO., LTD_One day TM Consultancy Services (GCR)	0	16	16
+HSCL0002-00	HSCL0002	G-HSCL0002-00	HAN SHAN CO., LTD_VMware Network Virtualization Planning (GCR)	0	28	4
+HHPI0001-00	HHPI0001	G-HHPI0001-00	Hon Hai Precision Ind. Co. Ltd_one day TM Consultancy Services(GCR)	0	40	40
+HHPI0004-00	HHPI0004	G-HHPI0004-00	Hon Hai Precision Ind. Co. Ltd_one day TM Consultancy Services(GCR)	0	40	40
+HHPI0002-01	HHPI0002	G-HHPI0002-01	MS1	1	46	46
+HHPI0002-02	HHPI0002	G-HHPI0002-02	MS2	2	74	74
+HHPI0002-03	HHPI0002	G-HHPI0002-03	MS3	3	415	415
+HHPI0002-04	HHPI0002	G-HHPI0002-04	MS4	4	19	15
+HHPI0003-01	HHPI0003	G-HHPI0003-01	MS1	1	54	54
+HHPI0003-02	HHPI0003	G-HHPI0003-02	MS2	2	73	73
+HHPI0003-03	HHPI0003	G-HHPI0003-03	MS3	3	439	439
+HHPI0003-04	HHPI0003	G-HHPI0003-04	MS4	4	30	28
+HHPI0005-00	HHPI0005	G-HHPI0005-00	HON HAI PRECISION INDUSTRY CO._VMware vSAN Deploy SKU Service - ELA Only_GCR	0	52	4
+HUAN0009-01	HUAN0009	G-HUAN0009-01	MS1	1	12	12
+HUAN0009-02	HUAN0009	G-HUAN0009-02	MS2	2	22	22
+HUAN0009-03	HUAN0009	G-HUAN0009-03	MS3	3	82	82
+HUAN0009-04	HUAN0009	G-HUAN0009-04	MS4	4	10	4
+ILRI0002-00	ILRI0002	G-ILRI0002-00	Industrial Technology Research_One day TM Consultancy Services delivered(GCR)	0	32	32
+TPOW0010-01	TPOW0010	G-TPOW0010-01	MS1	1	79	79
+ILRI0003-00	ILRI0003	G-ILRI0003-00	Industrial Technology Research_Virtualization Health Check Service Enterprise Small(GCR)	0	52	52
+IXCO0003-00	IXCO0003	G-IXCO0003-00	INNOLUX CORPORATION_One day TM Consultancy Services_(GCR)	0	40	40
+KGIS0009-00	KGIS0009	G-KGIS0009-00	KGI Securities_VMware one day T&M Consultancy Services delivered by a VMware Senior Consultant (GCR)	0	24	2
+LBOT0018-01	LBOT0018	G-LBOT0018-01	MS1	1	19	19
+LBOT0018-02	LBOT0018	G-LBOT0018-02	MS2	2	33	33
+LBOT0018-03	LBOT0018	G-LBOT0018-03	MS3	3	190	80
+LBOT0018-04	LBOT0018	G-LBOT0018-04	MS4	4	27	0
+LBOT0015-00	LBOT0015	G-LBOT0015-00	Land Bank Of Taiwan_VMware Network Virtualization Deployment Service(GCR)	0	160	160
+LBOT0016-00	LBOT0016	G-LBOT0016-00	LAND BANK OF TAIWAN_VSEC-CB-EDR-PS-DPY-GS-ESSL(GChina)	0	5	1
+LBTL0012-00	LBTL0012	G-LBTL0012-00	LINE Bank Taiwan Limited_New environment VCF project_30 Days TM_GCR	0	252	158
+LBTL0015-01	LBTL0015	G-LBTL0015-01	MS1	1	25	12
+LBTL0015-02	LBTL0015	G-LBTL0015-02	MS2	2	25	0
+LBTL0015-03	LBTL0015	G-LBTL0015-03	MS3	3	177	0
+LBTL0015-04	LBTL0015	G-LBTL0015-04	MS4	4	25	0
+METI0024-00	METI0024	G-METI0024-00	MediaTek Inc_MTK_TM69 Days(GCR)(Taiwan)	0	844	654
+MICB0017-01	MICB0017	G-MICB0017-01	MS1	1	84	8
+MICB0017-02	MICB0017	G-MICB0017-02	MS2	2	84	0
+MICB0017-03	MICB0017	G-MICB0017-03	MS3	3	588	0
+MICB0017-04	MICB0017	G-MICB0017-04	MS4	4	84	0
+MICB0013-00	MICB0013	G-MICB0013-00	Mega International Commercial Bank_Network Virtualization Planning Workshop_(GCR) 	0	32	32
+MICB0015-00	MICB0015	G-MICB0015-00	MEGA INTERNATIONAL COMMERCIAL_one day T&M Consultancy services(GCH)	0	40	40
+MLI 0004-01	MLI 0004	G-MLI 0004-01	MS1	1	253	8
+MLI 0004-02	MLI 0004	G-MLI 0004-02	MS2	2	253	0
+MLI 0004-03	MLI 0004	G-MLI 0004-03	MS3	3	1770	0
+MLI 0004-04	MLI 0004	G-MLI 0004-04	MS4	4	253	0
+MLI 0001-00	MLI 0001	G-MLI 0001-00	Mercuries Life Insurance Co. Ltd_VMware one day T and M Consultancy Services delivered by a VMware Senior Consultant (TAIWAN)	0	40	40
+MIT40001-00	MIT40001	G-MIT40001-00	MITAC INFORMATION TECHNOLOGY Corporation_one day T&M Consultancy Services (Taiwan)	0	40	24
+MIT40002-00	MIT40002	G-MIT40002-00	Mitac information Technology Corporation_VMware Network Virtualization Deployment and Application Security Adoption Service(Taiwan)	0	264	8
+MIIC0002-00	MIIC0002	G-MIIC0002-00	MITAC INTERNATIONAL CORP_One day T&M Consultancy services_GCR	0	16	16
+MIIC0001-00	MIIC0001	G-MIIC0001-00	MITAC INTERNATIONAL CORP_One day TM Consultancy services_(GCR)	0	40	40
+MIIC0003-00	MIIC0003	G-MIIC0003-00	MITAC INTERNATIONAL CORP_Virtualization Health Check Service Enterprise Small_GCR	0	52	52
+MOXA0002-01	MOXA0002	G-MOXA0002-01	MS1	1	12	12
+MOXA0002-02	MOXA0002	G-MOXA0002-02	MS2	2	8	8
+MOXA0002-03	MOXA0002	G-MOXA0002-03	MS3	3	84	84
+MOXA0002-04	MOXA0002	G-MOXA0002-04	MS4	4	14	12
+MOXA0001-00	MOXA0001	G-MOXA0001-00	Moxa Inc_one day T&M Consultancy services(GCR)	0	40	40
+MSIG0002-01	MSIG0002	G-MSIG0002-01		1	0	0
+MSIG0002-02	MSIG0002	G-MSIG0002-02		2	0	0
+MSIG0002-03	MSIG0002	G-MSIG0002-03		3	0	0
+MSIG0002-04	MSIG0002	G-MSIG0002-04		4	0	0
+NSHL0010-01	NSHL0010	G-NSHL0010-01	MS1	1	36	36
+NSHL0010-02	NSHL0010	G-NSHL0010-02	MS2	2	40	40
+NSHL0010-03	NSHL0010	G-NSHL0010-03	MS3	3	249	216
+NSHL0010-04	NSHL0010	G-NSHL0010-04	MS4	4	36	0
+NSHL0009-01	NSHL0009	G-NSHL0009-01	MS1	1	44	44
+NSHL0009-02	NSHL0009	G-NSHL0009-02	MS2	2	38	38
+NSHL0009-03	NSHL0009	G-NSHL0009-03	MS3	3	280	104
+NSHL0009-04	NSHL0009	G-NSHL0009-04	MS4	4	41	0
+NSHL0011-00	NSHL0011	G-NSHL0011-00	NAN SHAN LIFE INSURANCE CO., L_VMware one day T&M Consultancy services(GCR) 	0	40	0
+NSHL0012-00	NSHL0012	G-NSHL0012-00	NAN SHAN LIFE INSURANCE CO., L_VMware Performance and Capacity Management Deploy(GCR)	0	88	0
+NCFH0007-01	NCFH0007	G-NCFH0007-01	MS1	1	42	42
+NCFH0007-02	NCFH0007	G-NCFH0007-02	MS2	2	40	40
+NCFH0007-03	NCFH0007	G-NCFH0007-03	MS3	3	288	288
+NCFH0007-04	NCFH0007	G-NCFH0007-04	MS4	4	42	42
+NCFH0008-00	NCFH0008	G-NCFH0008-00	NATIONAL CENTER FOR HIGH-PERFO_one day T&M Consultancy services(GCR)	0	40	8
+NCSI0011-00	NCSI0011	G-NCSI0011-00	National Chung-Shan Institute Of Science & Technology_NCSIST 75 daysTnM_75DaysTM(TAIWAN)	0	800	737
+NCSI0017-01	NCSI0017	G-NCSI0017-01	MS1	1	63	63
+NCSI0017-02	NCSI0017	G-NCSI0017-02	MS2	2	65	65
+NCSI0017-03	NCSI0017	G-NCSI0017-03	MS3	3	438	414
+NCSI0017-04	NCSI0017	G-NCSI0017-04	MS4	4	64	0
+NCSI0013-00	NCSI0013	G-NCSI0013-00	National Chung-Shan Institute of Science and Technology_VSEC-CB-EDR-PS-DPY-GS-ESSL(GCH)	0	4	0
+NPAM0006-00	NPAM0006	G-NPAM0006-00	NATIONAL POLICE AGENCY MINISTR_One day TM Consultancy Services(GCR)	0	32	8
+NPAM0007-00	NPAM0007	G-NPAM0007-00	NATIONAL POLICE AGENCY MINISTR_VMware Virtualization Health Check Service Enterprise Medium (GCR)	0	104	0
+NSBR0004-00	NSBR0004	G-NSBR0004-00	NATIONAL SECURITY BUREAU_28 days TM(GCH)	0	224	184
+NCOB0006-01	NCOB0006	G-NCOB0006-01	MS1	1	52	52
+NCOB0006-02	NCOB0006	G-NCOB0006-02	MS2	2	51	51
+NCOB0006-03	NCOB0006	G-NCOB0006-03	MS3	3	590	172
+NCOB0006-04	NCOB0006	G-NCOB0006-04	MS4	4	122	0
+PRIC0006-01	PRIC0006	G-PRIC0006-01	MS1	1	50	50
+PRIC0006-02	PRIC0006	G-PRIC0006-02	MS2	2	52	52
+PRIC0006-03	PRIC0006	G-PRIC0006-03	MS3	3	352	184
+PRIC0006-04	PRIC0006	G-PRIC0006-04	MS4	4	50	0
+PRIC0004-00	PRIC0004	G-PRIC0004-00	President Information Corp_One day T&M Consultancy Services (GChina)	0	40	40
+PRIC0005-01	PRIC0005	G-PRIC0005-01	MS1	1	23	23
+PRIC0005-02	PRIC0005	G-PRIC0005-02	MS2	2	17	17
+PRIC0005-03	PRIC0005	G-PRIC0005-03	MS3	3	131	131
+PRIC0005-04	PRIC0005	G-PRIC0005-04	MS4	4	14	0
+RSMI0002-00	RSMI0002	G-RSMI0002-00	REALTEK SEMICONDUCTOR CORP_Residency_14days TandM(GCR)	0	118	88
+SNEX0002-01	SNEX0002	G-SNEX0002-01	MS1	1	38	38
+SNEX0002-02	SNEX0002	G-SNEX0002-02	MS2	2	28	28
+SNEX0002-03	SNEX0002	G-SNEX0002-03	MS3	3	251	217
+SNEX0002-04	SNEX0002	G-SNEX0002-04	MS4	4	36	0
+SNEX0001-00	SNEX0001	G-SNEX0001-00	SYNNEX TECHNOLOGY INTERNATIONAL CORPORATION_one day TM Consultancy Services(GCR)	0	40	40
+SYSI0001-00	SYSI0001	G-SYSI0001-00	Systex Corporation_33days TM(GCR)	0	744	320
+TCG 0005-00	TCG 0005	G-TCG 0005-00	Taipei City Government_one day TM Consultancy Services(GCR)	0	32	32
+TCG 0004-00	TCG 0004	G-TCG 0004-00	Taipei City Government_VMWare Network Virtualization Planning Workshop (GCR)	0	32	28
+DTCG0004-00	DTCG0004	G-DTCG0004-00	Taipei City Government_Vmware Virtualization Health Check Service Enterprise Small(GCR)	0	48	48
+TCPD0001-00	TCPD0001	G-TCPD0001-00	Taipei City Police Department_One day TM Consultancy Services(GCR)	0	40	0
+TAIT0002-01	TAIT0002	G-TAIT0002-01	MS1	1	50	0
+TAIT0002-02	TAIT0002	G-TAIT0002-02	MS2	2	50	0
+TAIT0002-03	TAIT0002	G-TAIT0002-03	MS3	3	347	0
+TAIT0002-04	TAIT0002	G-TAIT0002-04	MS4	4	49	0
+TAIT0003-01	TAIT0003	G-TAIT0003-01	MS1	1	81	59
+TAIT0003-02	TAIT0003	G-TAIT0003-02	MS2	2	81	0
+TAIT0003-03	TAIT0003	G-TAIT0003-03	MS3	3	564	0
+TAIT0003-04	TAIT0003	G-TAIT0003-04	MS4	4	80	0
+TAIT0001-01	TAIT0001	G-TAIT0001-01	MS1	1	48	48
+TAIT0001-02	TAIT0001	G-TAIT0001-02	MS2	2	34	34
+TAIT0001-03	TAIT0001	G-TAIT0001-03	MS3	3	697	693
+TAIT0001-04	TAIT0001	G-TAIT0001-04	MS4	4	40	0
+VGHT0004-00	VGHT0004	G-VGHT0004-00	Taipei Veterans General Hospital_one day Consultancy TM(GCR)	0	16	8
+VGHT0003-00	VGHT0003	G-VGHT0003-00	Taipei Veterans General Hospital_VMware Virtualization Health Check Service Enterprise Medium(GCR)	0	104	0
+TINB0016-00	TINB0016	G-TINB0016-00	Taishin International Bank Co Ltd_Taishin Bank 20 Days TnM(GCH)	0	160	47
+TINB0011-01	TINB0011	G-TINB0011-01	MS1	1	25	25
+TINB0011-02	TINB0011	G-TINB0011-02	MS2	2	22	22
+TINB0011-03	TINB0011	G-TINB0011-03	MS3	3	173	173
+TINB0011-04	TINB0011	G-TINB0011-04	MS4	4	32	4
+TACB0005-01	TACB0005	G-TACB0005-01	MS1	1	24	24
+TACB0005-02	TACB0005	G-TACB0005-02	MS2	2	28	28
+TACB0005-03	TACB0005	G-TACB0005-03	MS3	3	168	12
+TACB0005-04	TACB0005	G-TACB0005-04	MS4	4	24	0
+SYSD0001-01	SYSD0001	G-SYSD0001-01	MS1	1	30	0
+SYSD0001-02	SYSD0001	G-SYSD0001-02	MS2	2	30	0
+SYSD0001-03	SYSD0001	G-SYSD0001-03	MS3	3	212	0
+SYSD0001-04	SYSD0001	G-SYSD0001-04	MS4	4	30	0
+THSR0003-00	THSR0003	G-THSR0003-00	TAIWAN HIGH SPEED RAIL CO_VMware Network Virtualization Deployment and Application Security Adoption Service_(GCR)	0	264	264
+THSR0005-00	THSR0005	G-THSR0005-00	TAIWAN HIGH SPEED RAIL CO_VMware Virtualization Health Check Service Enterprise Medium(GCR)	0	104	8
+THSR0004-00	THSR0004	G-THSR0004-00	TAIWAN HIGH SPEED RAIL CO_VMware vSAN Health Check Service Enterprise Large(GCR)	0	196	0
+THSR0001-01	THSR0001	G-THSR0001-01	MS1	1	83	83
+THSR0001-02	THSR0001	G-THSR0001-02	MS2	2	82	82
+THSR0001-03	THSR0001	G-THSR0001-03	MS3	3	812	812
+THSR0001-04	THSR0001	G-THSR0001-04	MS4	4	18	6
+TAMC0009-00	TAMC0009	G-TAMC0009-00	Taiwan Mobile Co Ltd_one day TM Consultancy services(GCR)	0	40	0
+TAMC0010-00	TAMC0010	G-TAMC0010-00	Taiwan Mobile Co Ltd_VMware one day T&M Consultancy Services_(GCR)	0	16	0
+TAMC0008-01	TAMC0008	G-TAMC0008-01	MS1	1	19	19
+TAMC0008-02	TAMC0008	G-TAMC0008-02	MS2	2	19	19
+TAMC0008-03	TAMC0008	G-TAMC0008-03	MS3	3	135	95
+TAMC0008-04	TAMC0008	G-TAMC0008-04	MS4	4	20	0
+TPOW0009-00	TPOW0009	G-TPOW0009-00	TAIWAN POWER COMPAN_One day TM Consultancy Services(GCR)	0	40	40
+TPOW0004-00	TPOW0004	G-TPOW0004-00	Taiwan Power Company_22 TM days for Siemens_TM_(GChina)	0	189	189
+TPOW0012-00	TPOW0012	G-TPOW0012-00	TAIWAN POWER COMPANY_One day TM Consultancy Services(GCR)	0	40	28
+TPOW0010-02	TPOW0010	G-TPOW0010-02	MS2	2	78	78
+TPOW0010-03	TPOW0010	G-TPOW0010-03	MS3	3	546	450
+TPOW0010-04	TPOW0010	G-TPOW0010-04	MS4	4	78	0
+TAIL0003-00	TAIL0003	G-TAIL0003-00	Taiwan Star Telecom Co. Ltd_one day TM Consultancy Services(GCH)	0	32	12
+TPOW0008-00	TPOW0008	G-TPOW0008-00	TaiwanPowerCompany_VMware one day T&M Consultancy Services (Taiwan)	0	32	32
+TCC 0002-00	TCC 0002	G-TCC 0002-00	TCC Information Systems Corp_ VMware one day T&M Consultancy Services delivered by a VMware Senior Consultant(GCR)	0	40	16
+TCC 0001-00	TCC 0001	G-TCC 0001-00	TCC Information Systems Corp_VMware one day T&M Consultancy Services delivered by a VMware Senior Consultant (TAIWAN)	0	24	24
+TLNC0002-00	TLNC0002	G-TLNC0002-00	TRANSGLOBE LIFE INSURANCE INC_VMware one day T&M Consultancy Services(GCR)	0	40	40
+TSMT0013-00	TSMT0013	G-TSMT0013-00	TSMC_One day TM Consultancy services (GCR)	0	40	0
+TSMT0012-00	TSMT0012	G-TSMT0012-00	TSMC_VMware Network Virtualization Deployment Service(GCR)	0	120	44
+UNTN0001-00	UNTN0001	G-UNTN0001-00	UNIMICRON TECHNOLOGY CORPORATION_VMware Horizon Desktop Health Check_(GCR) 	0	72	33
+WTCP0008-00	WTCP0008	G-WTCP0008-00	Wistron Corporation_VMware one day T&M Consultancy Services(GCR)	0	40	40
+YFHC0011-00	YFHC0011	G-YFHC0011-00	Yuanta Financial Holding Co. Ltd_Residency 22 days TM(GCR)	0	185	175
+YFHC0010-00	YFHC0010	G-YFHC0010-00	Yuanta Financial Holding Co. Ltd_Residency_25 days TM(GCR)	0	210	188
+YFHC0022-01	YFHC0022	G-YFHC0022-01	MS1	1	12	8
+YFHC0022-02	YFHC0022	G-YFHC0022-02	MS2	2	14	0
+YFHC0022-03	YFHC0022	G-YFHC0022-03	MS3	3	88	0
+YFHC0022-04	YFHC0022	G-YFHC0022-04	MS4	4	12	0
+YFHC0013-00	YFHC0013	G-YFHC0013-00	Yuanta Financial Holding Co. Ltd_VSEC-EDRAPC-PS-DP-STD_(GCH)	0	26	0
+YFHC0012-01	YFHC0012	G-YFHC0012-01	MS1	1	37	37
+YFHC0012-02	YFHC0012	G-YFHC0012-02	MS2	2	12	12
+YFHC0012-03	YFHC0012	G-YFHC0012-03	MS3	3	142	142
+YFHC0012-04	YFHC0012	G-YFHC0012-04	MS4	4	19	19
+YFHC0017-01	YFHC0017	G-YFHC0017-01	MS1	1	21	21
+YFHC0017-02	YFHC0017	G-YFHC0017-02	MS2	2	128	8
+YFHC0017-03	YFHC0017	G-YFHC0017-03	MS3	3	18	0
+YFHC0017-04	YFHC0017	G-YFHC0017-04	MS4	4	18	0
+YFHC0016-00	YFHC0016	G-YFHC0016-00	YUANTA FINANCIAL HOLDING CO.Ltd_one day T&M Consultancy services(GCR)	0	40	40
+\.
+
+
+--
+-- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: sammy
+--
+
+COPY public.alembic_version (version_num) FROM stdin;
+12a3fb464b28
+\.
+
+
+--
+-- Name: Member_member_id_seq; Type: SEQUENCE SET; Schema: public; Owner: sammy
+--
+
+SELECT pg_catalog.setval('public."Member_member_id_seq"', 2, true);
+
+
+--
+-- Name: Engagement Engagement_pkey; Type: CONSTRAINT; Schema: public; Owner: sammy
+--
+
+ALTER TABLE ONLY public."Engagement"
+    ADD CONSTRAINT "Engagement_pkey" PRIMARY KEY (engagement_id);
+
+
+--
+-- Name: GroupMember GroupMember_pkey; Type: CONSTRAINT; Schema: public; Owner: sammy
+--
+
+ALTER TABLE ONLY public."GroupMember"
+    ADD CONSTRAINT "GroupMember_pkey" PRIMARY KEY (group_id, member_id, phase_name);
+
+
+--
+-- Name: Group Group_pkey; Type: CONSTRAINT; Schema: public; Owner: sammy
+--
+
+ALTER TABLE ONLY public."Group"
+    ADD CONSTRAINT "Group_pkey" PRIMARY KEY (group_id);
+
+
+--
+-- Name: Member Member_pkey; Type: CONSTRAINT; Schema: public; Owner: sammy
+--
+
+ALTER TABLE ONLY public."Member"
+    ADD CONSTRAINT "Member_pkey" PRIMARY KEY (member_id);
+
+
+--
+-- Name: Phase Phase_pkey; Type: CONSTRAINT; Schema: public; Owner: sammy
+--
+
+ALTER TABLE ONLY public."Phase"
+    ADD CONSTRAINT "Phase_pkey" PRIMARY KEY (phase_id);
+
+
+--
+-- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: sammy
+--
+
+ALTER TABLE ONLY public.alembic_version
+    ADD CONSTRAINT alembic_version_pkc PRIMARY KEY (version_num);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
