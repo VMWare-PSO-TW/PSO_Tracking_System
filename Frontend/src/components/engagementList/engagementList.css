@@ -132,7 +132,7 @@
 }
 
 .pagination.pagination-sm.pull-right{
-    display: none;
+    display: block;
 }
 
 .row.header-row{
@@ -147,4 +147,63 @@
 
 .form-control.filter-input{
     width: 60% !important;
+}
+
+.pagination{
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+.btn-first-page {
+    width: 3% !important;
+    background-color: #B0C4DE;
+    color: white;
+    border-radius: 1em;
+    text-align: center;
+    margin: 0.5em;
+}
+.btn-numbered-page.active{
+    width: 3% !important;
+    margin: 0.5em;
+    color: white;
+    background-color: #4682B4;
+    border-radius: 1em;
+    text-align: center;
+    margin: 0.5em;
+}
+
+.btn-numbered-page {
+    width: 3% !important;
+    margin: 0.5em;
+    color: #4682B4;
+    border-radius: 1em;
+    text-align: center;
+    margin: 0.5em;
+}
+
+.btn-last-page {
+    width: 3% !important;
+    background-color: #B0C4DE;
+    color: white;
+    border-radius: 1em;
+    text-align: center;
+    margin: 0.5em;
+
+}
+
+.btn-prev-page{
+    width: 3% !important;
+    margin: 0.5em;
+    color: #4682B4;
+}
+
+.btn-next-page{
+    width: 3% !important;
+    margin: 0.5em;
+    color: #4682B4;
+}
+.btn-next-more{
+    width: 3% !important;
+    margin: 0.5em;
+    color: #4682B4;
 }

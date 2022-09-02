@@ -9,7 +9,8 @@ import { ProgressBar, Step } from "react-step-progress-bar";
 import ProgressLine from "../progressLine/ProgressLine";
 
 const ProgressChart = ({ phaseItems }) => {
-
+    // console.log('Chart !!!')
+    // console.log(phaseItems);
     const [progressBarItems, setProgressBarItems] = useState([])
 
     const getSum = (arr, key) => {
@@ -33,7 +34,7 @@ const ProgressChart = ({ phaseItems }) => {
         
 
         for (let i = 0; i < phaseItems.length; i++){
-            accum += phaseItems[i].expect
+            accum += phaseItems[i].expect_hours
 
             chartStepPercent.push(
                 ((accum / expectHours).toFixed(2)*100)
@@ -66,12 +67,13 @@ const ProgressChart = ({ phaseItems }) => {
     }
 
     useEffect(() => {
-        const expectHours = getSum(phaseItems, 'expect');
-        const actualHours = getSum(phaseItems, 'actual');
+        const expectHours = getSum(phaseItems, 'expect_hours');
+        const actualHours = getSum(phaseItems, 'actual_hours');
         const [progressChartPercent, progressChartStep] = getChartStep(expectHours);
         
-        const actualPercentage = ((actualHours / expectHours).toFixed(2) * 100);
+        const actualPercentage = parseInt(((actualHours / expectHours).toFixed(2) * 100), 10);
 
+        console.log(actualPercentage);
 
         setProgressBarItems({
             percentage: actualPercentage,

@@ -1,22 +1,23 @@
 .userList {
   flex: 2;
-  height: 400px;
+  height: 80%;
 }
 
 .userListUser {
+  display: block !important;
   align-items: center;
+  text-align: center;
 }
 
 .progressBar{
-  margin-top: 5% !important;
-  margin-bottom: 5% !important;
+  margin: 2em;
 }
 
 .phases{
   display: flex;
   flex-wrap: wrap;
-  height: 30px;
-  
+  height: 2em;
+  margin: 2em;
 }
 
 .button{
@@ -28,5 +29,10 @@
 
 .MuiDataGrid-root .MuiDataGrid-cell--withRenderer{
   display: block !important;
+}
+
+.MuiDataGrid-root .MuiDataGrid-columnHeaderTitleContainer{
+  display: block !important;
+  text-align: center;
 }
 

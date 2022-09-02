@@ -17,7 +17,7 @@ const fields = [
 ]
 
 const EngagementList = ({engagementItems}) => {
-    const engagementDummyList = engagementItems.map(project => {
+    const engagementList = engagementItems.map(project => {
         const status = parseInt((((project.actual_hours / project.expect_hours )) * 100).toFixed(0), 10);
         const remain_hours = project.expect_hours - project.actual_hours;
         // console.log(project);
@@ -49,13 +49,13 @@ const EngagementList = ({engagementItems}) => {
             <FilterableTable
                 namespace="Engagements"
                 initialSort="name"
-                data={engagementDummyList}
+                data={engagementList}
                 fields={fields}
                 noRecordsMessage="There are no engagement to display"
                 noFilteredRecordsMessage="No engagement match your filters!"
                 autofocusFilter={true}
                 headerVisible={true}
-                pagerTitles={{first: '', last: '' }}
+                // pagerTitles={{first: '', last: '' }}
          />
         </div>
     )

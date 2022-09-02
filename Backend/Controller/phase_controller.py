@@ -47,8 +47,8 @@ def list(engagement_id):
                 'id': group_member.member_id,
                 'name': member.first_name + " " + member.last_name,
                 'role': member.role,
-                'total actual': total_actual_hours,
-                'total expect': total_expect_hours,
+                'total_actual': total_actual_hours,
+                'total_expect': total_expect_hours,
                 'phases': phase_list
         })
         
@@ -91,4 +91,22 @@ def phase(engagement_id, step):
     })
     response.headers.add("Access-Control-Allow-Origin", "*")
     return response
+
+
+@phases.route("/<string:engagement_id>/phases_by_engagement", methods=['GET'])
+def phases_total_hours(engagement_id):
+
+    phases = Phase.query.filter_by(engagement_id=engagement_id).all()
+
+    hours_by_phase_list = []
+
+    for phase in phases:
+        hours_by_phase_list.append({
+            'phase': phase.step,
+            'expect_hours': phase.expect_hours,
+            'actual_hours': phase.actual_hours
+        })
     
+    sorted(hours_by_phase_list, key=lambda x: x['phase'])
+
+    return jsonify(hours_by_phase_list)

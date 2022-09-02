@@ -23,8 +23,10 @@
   }
   
   .topRight{
+
       display: flex;
       align-items: center;
+      display: none;
   }
   
   .topbarIconContainer {
@@ -54,4 +56,5 @@
       height: 40px;
       border-radius: 50%;
       cursor: pointer;
+      display: none;
   }

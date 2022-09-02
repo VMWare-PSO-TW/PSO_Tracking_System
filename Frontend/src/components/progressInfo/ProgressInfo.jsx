@@ -13,7 +13,6 @@ const ProgressInfo = ({ phaseItems, engagementId}) => {
     const [engagementItem, setEngagementItem] = useState({})
     useEffect(() => {
         console.log('execute function in useEffect Phase!');
-
         const fetchingData = async (engagementId) => {
             const engagement = await fetchEngagement(engagementId);
 
@@ -24,10 +23,8 @@ const ProgressInfo = ({ phaseItems, engagementId}) => {
  
         }
         fetchingData(engagementId);
-        // console.log(engagementItem)
     }, []);
 
-    // console.log(phaseItems);
 
     const getSum = (arr, key) => {
         return arr.reduce((accumulator, current) => accumulator + Number(current[key]), 0)
@@ -40,8 +37,8 @@ const ProgressInfo = ({ phaseItems, engagementId}) => {
         let accum = 0;
         for (let i = 0; i < phaseItems.length; i++){
             
-            accum += phaseItems[i].expect
-            // console.log(`accum: ${accum}  phase:${i + 1}`)
+            accum += phaseItems[i].expect_hours
+            
             if (actual < accum){
                 return i + 1
             }
@@ -49,12 +46,59 @@ const ProgressInfo = ({ phaseItems, engagementId}) => {
         return phaseItems.length + 1
     }
 
-    const expectHours = getSum(phaseItems, 'expect');
-    const actualHours = getSum(phaseItems, 'actual');
-    const remainHours = expectHours - 165;
-    const currentPercent = (165 / expectHours ).toFixed(2) * 100;
-    const currentPhase = getCurrentPhase(165);
+    const expectHours = getSum(phaseItems, 'expect_hours');
+    const actualHours = getSum(phaseItems, 'actual_hours');
+    const remainHours = expectHours - actualHours;
+    const currentPercent = parseInt((actualHours / expectHours ).toFixed(2) * 100, 10);
+    const currentPhase = getCurrentPhase(actualHours);
 
+    const displayPhase = () => {
+
+        if (actualHours == 0){
+            return (<span className='infoPhase'>Not Started</span>)
+        }
+        if (phaseItems.length == 1){
+            if (currentPhase == 1){
+                return (
+                    <div className="diplayPhase">
+                        <span className='infoPhase'>
+                            One Phase Only
+                        </span>
+                        <span className="infoPercent">
+                        {`Current Progress: ${currentPercent} %`}
+                        </span>
+                    </div>
+                )
+            }
+            else{
+                return (
+                    <div className="diplayPhase">
+                        <span className='infoPhase'>
+                            One Phase Only
+                        </span>
+                        <span className='infoPhase'>Complete</span>
+                    </div>
+                )
+            }
+        }
+        
+        if (currentPhase < phaseItems.length){
+            return (
+                <div className="displayPhase">
+                    <span className='infoPhase'>
+                        {`Phase ${currentPhase}`}
+                    </span>
+                    <span className="infoPercent">
+                    {`Current Progress: ${currentPercent} %`}
+                    </span>
+                </div>
+                )
+        }else{
+            
+            return (<span className='infoPhase'>Complete</span>)
+        }
+
+    }
 
     return (
         <div className="progressInfo">
@@ -76,16 +120,9 @@ const ProgressInfo = ({ phaseItems, engagementId}) => {
                     </span>
                 </div>
                 {
-                    currentPhase < phaseItems.length 
-                    ? 
-                    (<span className='infoPhase'>
-                        {`Phase ${currentPhase}`}
-                        <span className="infoPercent">
-                            {`Current Progress: ${currentPercent} %`}
-                        </span>
-                    </span>)
-                    :
-                    (<span className='infoPhase'>Complete</span>)
+                    
+                    
+                    displayPhase()
                 }
             
             </div>
@@ -97,7 +134,7 @@ const ProgressInfo = ({ phaseItems, engagementId}) => {
                     </span>
                 </div>
                 <div className="infoHour">
-                    <span className="infoActualHour">{165}
+                    <span className="infoActualHour">{actualHours}
                         <span className="infoActualText">
                             Used
                         </span>

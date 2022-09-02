@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import React, { useState, useEffect } from 'react';
 
 import ProgressChart from '../../components/progressChart/ProgessChart';
-import { fetchAllPhases } from '../../data/fetchData';
+import { fetchAllPhases,fecthAllPhasesInfo } from '../../data/fetchData';
 
 
 import EngagementDetail from '../../components/engagementDetail/EngagementDetail';
@@ -26,17 +26,17 @@ const Phase = () =>{
         console.log('execute function in useEffect Phase!');
 
         const fetchingData = async (engagementId) => {
-            const phases = await fetchAllPhases(engagementId);
-            console.log(phases);
-            setPhaseItems([
-                ...phases.phases,
-            ]);
+            const memberInfo = await fetchAllPhases(engagementId);
+            const phasesInfo = await fecthAllPhasesInfo(engagementId);
+            setPhaseItems(
+                phasesInfo
+            );
 
-            setMemberItems([
-                ...phases.members,
-            ]);
+            setMemberItems(
+                memberInfo
+            );
 
-            // console.log(phaseItems);
+
         }
             fetchingData(engagementId);
     }, [location.pathname]);

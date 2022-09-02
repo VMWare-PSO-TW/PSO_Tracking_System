@@ -14,7 +14,6 @@ const Member = () => {
     const memberId = pathName.substring(pathName.lastIndexOf('/')+ 1)
     const [memberItem, setMemberItem] = useState({})
 
-    console.log(memberId)
 
     useEffect(() => {
         console.log('execute function in useEffect Member!');
@@ -29,13 +28,12 @@ const Member = () => {
             
         };
         fetchingData(memberId);
-        console.log('memberItem: ',memberItem);
     }, [location.pathname]);
 
     return (
         <div className="member">
             <MemberInfo memberItem={memberItem}/>
-            <MemberSwitch memberItem={memberItem}/>
+            <MemberSwitch />
 
         </div>
     );

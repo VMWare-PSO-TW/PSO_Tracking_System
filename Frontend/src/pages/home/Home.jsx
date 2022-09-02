@@ -6,6 +6,7 @@ import EngagementList from "../../components/engagementList/EngagementList";
 import { fetchAllEngagements } from "../../data/fetchData";
 
 import React, { useState, useEffect, useCallback } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Home() {
   const [engagementItems, setEngagementItems] = useState([]);
@@ -26,6 +27,7 @@ export default function Home() {
   useEffect(() => {
     console.log('execute function in useEffect Home!');
     fetchData();
+  
   }, [fetchData]);
 
 

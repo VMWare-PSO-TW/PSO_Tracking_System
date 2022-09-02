@@ -80,7 +80,7 @@ const Cols =  [
         sortable: false,
         filterable: false,
         renderCell: (params) => {
-            const completePercent = (((params.row.actual / params.row.expect)) * 100).toFixed(0)
+            const completePercent = (((params.row.total_actual / params.row.total_expect)) * 100).toFixed(0)
   
             return (
               <div className="progressBar">
@@ -100,7 +100,7 @@ const Cols =  [
         sortable: false,
         filterable: false,
         renderCell: (params) => {
-            const actualHours = params.row.actual;
+            const actualHours = params.row.total_actual;
     
             return (
                 <div className="userListUser">
@@ -116,7 +116,7 @@ const Cols =  [
         sortable: false,
         filterable: false,
         renderCell: (params) => {
-            const remainHours = params.row.expect - params.row.actual;
+            const remainHours = params.row.total_expect - params.row.total_actual;
                 return (
                 <div className="userListUser">
                     {remainHours}
@@ -131,7 +131,7 @@ const Cols =  [
         sortable: false,
         filterable: false,
         renderCell: (params) => {
-            const expectHours = params.row.expect;
+            const expectHours = params.row.total_expect;
                 return (
                 <div className="userListUser">
                     {expectHours}

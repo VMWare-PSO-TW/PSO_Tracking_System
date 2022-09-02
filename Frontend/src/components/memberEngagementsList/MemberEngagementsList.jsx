@@ -53,7 +53,6 @@ const MemberEngagementsList = () => {
     
             setEngagementList(memberEngagementsList);
  
-            console.log('memberEngagementsList ',memberEngagementsList);
             
         };
         fetchingData(memberId);

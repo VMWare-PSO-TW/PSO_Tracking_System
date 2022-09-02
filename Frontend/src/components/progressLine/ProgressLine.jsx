@@ -8,7 +8,7 @@ const ProgressLine = ({ actualPercentage }) => {
    
     return (
 
-                <ProgressBar label={`${70}%`} now={70} animated/>
+                <ProgressBar label={`${actualPercentage}%`} now={actualPercentage} animated/>
 
        
     )

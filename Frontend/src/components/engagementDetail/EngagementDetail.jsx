@@ -6,11 +6,7 @@ import MemberList from '../memberList/MemberList';
 
 const EngagementDetail = ({ engagementId, members }) => {
 
-
-    const engagementItem = engagementDummyData.find((e) => e.id === engagementId);
     const memberItems = members
-   
-
     return (
         <div className="engagementContainer">
             <div className="engagementMember">

@@ -28,6 +28,16 @@ export const fetchEngagement = (id) => {
     );
 }
 
+export const fecthAllPhasesInfo = (id) =>{
+    return (
+        fetch(apiUrl.concat('phase/' + id + '/phases_by_engagement'),)
+        .then(response =>response.json())
+        .then(data => {
+            return data;
+        })
+    );
+}
+
 export const fetchAllPhases = (id) => {
     // console.log(id)
     return (
